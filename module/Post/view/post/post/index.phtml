@@ -1,1 +1,23 @@
-<h2>This is the index</h2>
+<?php
+die("qbdqh");
+    $this->headTitle("Index page man");
+?>
+<table class="table table-bordered ">
+    <thead>
+        <tr>
+            <td>Title</td>
+            <td>Price</td>
+            <td>Image</td>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($posts as $post) : ?>
+            <tr>
+                <td><?= $post->title ?></td>
+                <td><?= $post->price ?></td>
+                <td><?= $post->image ?></td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+
+</table>

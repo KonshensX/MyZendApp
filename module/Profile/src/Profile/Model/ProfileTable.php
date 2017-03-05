@@ -1,17 +1,13 @@
 <?php
 
-namespace Post\Model;
+namespace Profile\Model;
 
-use Zend\Db\TableGateway\TableGateway;
-
-class PostTable
-{
+class ProfileTable {
 
     protected $tableGateway;
 
     public function __construct(TableGateway $tableGateway)
     {
-        return __NAMESPACE__ ;
         $this->tableGateway = $tableGateway;
     }
 
@@ -21,7 +17,7 @@ class PostTable
         return $resultSet;
     }
 
-    public function getPost($id)
+    public function getProfile($id)
     {
         $id  = (int) $id;
         $rowset = $this->tableGateway->select(array('id' => $id));
@@ -32,26 +28,26 @@ class PostTable
         return $row;
     }
 
-    public function savePost(Post $post)
+    public function saveProfile(Profile $Profile)
     {
         $data = array(
-            'artist' => $post->artist,
-            'title'  => $post->title,
+            'artist' => $Profile->artist,
+            'title'  => $Profile->title,
         );
 
-        $id = (int) $post->id;
+        $id = (int) $Profile->id;
         if ($id == 0) {
             $this->tableGateway->insert($data);
         } else {
-            if ($this->getPost($id)) {
+            if ($this->getProfile($id)) {
                 $this->tableGateway->update($data, array('id' => $id));
             } else {
-                throw new \Exception('Post id does not exist');
+                throw new \Exception('Profile id does not exist');
             }
         }
     }
 
-    public function deletePost($id)
+    public function deleteProfile($id)
     {
         $this->tableGateway->delete(array('id' => (int) $id));
     }

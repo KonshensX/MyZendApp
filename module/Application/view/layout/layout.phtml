@@ -28,7 +28,7 @@
 
     </head>
     <body>
-        <nav class="navbar"  >
+        <nav class="navbar navbar-info"  >
             <div class="container">
                 <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
@@ -65,18 +65,18 @@
             </div>
         </nav>
         <br><br>
-        <div class="container" STYLE="margin-top: 20px;">
-            <div class="main main-raised">
-                <div class="container">
-                    <?php echo $this->content; ?>
-                </div>
-            </div>
 
-            <hr>
-            <footer>
-                <p> Copyright &copy; 2015 - <?php echo date('Y') ?> Fabour <?php echo $this->translate('All rights reserved.') ?></p>
-            </footer>
-        </div> <!-- /container -->
+        <div class="main main-raised">
+            <div class="container">
+                <?php echo $this->content; ?>
+            </div>
+        </div>
+
+        <hr>
+        <footer>
+            <p> Copyright &copy; 2015 - <?php echo date('Y') ?> Fabour <?php echo $this->translate('All rights reserved.') ?></p>
+        </footer>
+
         <?php echo $this->inlineScript() ?>
     </body>
 </html>

@@ -2,7 +2,6 @@
 
 namespace Post\Controller;
 
-use Post\Model\MyTable;
 use Post\Model\PostTable;
 use Post\Model\Post;
 use Post\Form\PostForm;
@@ -16,9 +15,7 @@ class PostController extends AbstractActionController {
     public function indexAction()
     {
         $repo = $this->getPostTable()->fetchAll();
-
-        //$fuck = new PostTable(null);
-
+        
         return new ViewModel(array(
             'posts' => $repo,
         ));
@@ -34,14 +31,12 @@ class PostController extends AbstractActionController {
         $request = $this->getRequest();
 
         if ($request->isPost()) {
-            echo "<pre>";
-            var_dump($request->getFiles());
-            echo "</pre>";
             die("This was reached!");
         }
-        return array(
+
+        return new ViewModel(array(
             'form' => $form
-        );
+        ));
     }
 
     public function editAction () {
