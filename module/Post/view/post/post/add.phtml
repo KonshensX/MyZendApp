@@ -1,9 +1,24 @@
+<?php
+    $this->headTitle('Create new post');
+    $form->setAttribute('action', $this->url('post', array('action' => 'add')));
+    $form->prepare();
+?>
+
+
+
 <div class="section text-center section-landing">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <h2 class="title">Add a new item</h2>
             <h5 class="description">Please fill in the form below</h5>
-
+            <?= $this->form()->openTag($form); ?>
+            <div class="form-group">
+                <?= $this->formHidden($form->get('id')); ?>
+            </div>
+            <?= $this->formRow($form->get('title')); ?>
+            <?= $this->formRow($form->get('image-file')); ?>
+            <?= $this->formRow($form->get('submit')); ?>
+            <?= $this->form()->closeTag(); ?>
         </div>
     </div>
 </div>

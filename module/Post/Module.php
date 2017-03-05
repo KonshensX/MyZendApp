@@ -4,7 +4,6 @@ namespace Post;
 
 use Post\Model\Post;
 use Post\Model\PostTable;
-use Zend\Db\Adapter\Adapter;
 use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\TableGateway\TableGateway;
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
@@ -31,7 +30,7 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface
         return include __DIR__ . '/config/module.config.php';
     }
 
-    // Add this method:
+    //Add this method:
     public function getServiceConfig()
     {
         return array(

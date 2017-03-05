@@ -15,3 +15,4 @@ class Post {
         $this->imagepath = (!empty($data['imagepath'])) ? $data['imagepath'] : null;
     }
 }
+

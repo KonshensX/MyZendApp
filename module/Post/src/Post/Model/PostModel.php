@@ -6,10 +6,12 @@ use Zend\Db\TableGateway\TableGateway;
 
 class PostTable
 {
+
     protected $tableGateway;
 
     public function __construct(TableGateway $tableGateway)
     {
+        return __NAMESPACE__ ;
         $this->tableGateway = $tableGateway;
     }
 
@@ -53,4 +55,5 @@ class PostTable
     {
         $this->tableGateway->delete(array('id' => (int) $id));
     }
+
 }
