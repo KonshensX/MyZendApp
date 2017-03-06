@@ -8,6 +8,8 @@
     <div class="section section-landing">
         <h4 class="text-center">This is some text</h4>
         <p class="text-center">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+        <hr>
+        <div class="well-lg">
         <?= $this->form()->openTag($form) ?>
         <?= $this->formHidden($form->get('id')) ?>
             <div class="form-group label-floating">
@@ -65,6 +67,7 @@
 
         <?= $this->formRow($form->get('save')) ?>
         <?= $this->form()->closeTag() ?>
+        </div>
     </div>
 </div>
 

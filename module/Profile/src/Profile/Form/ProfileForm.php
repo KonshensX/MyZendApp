@@ -3,6 +3,8 @@
 namespace Profile\Form;
 
 use Zend\Form\Element\File;
+use Zend\InputFilter;
+use Zend\Form\Element;
 use Zend\Form\Form;
 
 class ProfileForm extends Form {
@@ -23,7 +25,6 @@ class ProfileForm extends Form {
             ),
             'attributes' => array(
                 'class' => 'form-control',
-                'placeholder' => 'Username'
             )
         ));
         $this->add(array(
@@ -34,7 +35,6 @@ class ProfileForm extends Form {
             ),
             'attributes' => array(
                 'class' => 'form-control',
-                'placeholder' => 'First name'
             )
         ));
         $this->add(array(
@@ -45,7 +45,6 @@ class ProfileForm extends Form {
             ),
             'attributes' => array(
                 'class' => 'form-control',
-                'placeholder' => 'Last name'
             )
         ));
         $this->add(array(
@@ -56,7 +55,6 @@ class ProfileForm extends Form {
             ),
             'attributes' => array(
                 'class' => 'form-control',
-                'placeholder' => 'Mobile'
             )
         ));
         $this->add(array(
@@ -67,7 +65,6 @@ class ProfileForm extends Form {
             ),
             'attributes' => array(
                 'class' => 'form-control',
-                'placeholder' => 'Interests'
             )
         ));
         $this->add(array(
@@ -78,7 +75,6 @@ class ProfileForm extends Form {
             ),
             'attributes' => array(
                 'class' => 'form-control',
-                'placeholder' => 'Occupation'
             )
         ));
         $this->add(array(
@@ -89,21 +85,45 @@ class ProfileForm extends Form {
             ),
             'attributes' => array(
                 'class' => 'form-control',
-                'placeholder' => 'About'
             )
         ));
-        $file = new File('Image');
-        $file->setLabel('Avatar')->setAttribute('id', 'avatar');
+        $file = new File('image-file');
+        $file->setLabel('Avatar')->setAttribute('id', 'image-file');
         $this->add($file);
 
-        $this->add(array(
-            'name' => 'save',
-            'type' => 'Submit',
-            'attributes' => array(
-                'value' => 'Save Changes',
-                'class' => 'btn btn-warning btn-round pull-right'
+        $this->addInputFilter();
+    }
+
+    public function addInputFilter()
+    {
+        $inputFilter = new InputFilter\InputFilter();
+
+        // File Input
+        $fileInput = new InputFilter\FileInput('image-file');
+        $fileInput->setRequired(true);
+
+        // You only need to define validators and filters
+        // as if only one file was being uploaded. All files
+        // will be run through the same validators and filters
+        // automatically.
+        $fileInput->getValidatorChain()
+            ->attachByName('filesize',      array('max' => 204800))
+            ->attachByName('filemimetype',  array('mimeType' => 'image/png,image/x-png'))
+            ->attachByName('fileimagesize', array('maxWidth' => 2000, 'maxHeight' => 2000));
+
+        // All files will be renamed, i.e.:
+        //   ./data/tmpuploads/avatar_4b3403665fea6.png,
+        //   ./data/tmpuploads/avatar_5c45147660fb7.png
+        $fileInput->getFilterChain()->attachByName(
+            'filerenameupload',
+            array(
+                'target'    => './data/uploads/avatar.png',
+                'randomize' => true,
             )
-        ));
+        );
+        $inputFilter->add($fileInput);
+
+        $this->setInputFilter($inputFilter);
     }
 
 }

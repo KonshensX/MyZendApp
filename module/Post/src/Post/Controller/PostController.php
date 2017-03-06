@@ -12,13 +12,17 @@ class PostController extends AbstractActionController {
 
     protected $postTable;
 
+    public function omgAction () {
+        return array();
+    }
+
     public function indexAction()
     {
         $repo = $this->getPostTable()->fetchAll();
-        
-        return new ViewModel(array(
+
+        return array(
             'posts' => $repo,
-        ));
+        );
 
     }
     //TODO: Needs more work

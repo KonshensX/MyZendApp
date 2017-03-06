@@ -1,0 +1,14 @@
+<?php $form->prepare(); // The correct enctype is set here ?>
+
+<div class="form-element">
+
+    <?= $this->form()->openTag($form) ?>
+    <?php $fileElement = $form->get('image-file'); ?>
+    <?php echo $this->formLabel($fileElement); ?>
+    <?php echo $this->formFile($fileElement); ?>
+    <?php echo $this->formElementErrors($fileElement); ?>
+    <button type="submit">Upload</button>
+
+    <?= $this->form()->closeTag() ?>
+
+</div>

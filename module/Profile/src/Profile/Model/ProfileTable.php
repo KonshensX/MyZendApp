@@ -2,6 +2,8 @@
 
 namespace Profile\Model;
 
+use Zend\Db\TableGateway\TableGateway;
+
 class ProfileTable {
 
     protected $tableGateway;
@@ -31,8 +33,14 @@ class ProfileTable {
     public function saveProfile(Profile $Profile)
     {
         $data = array(
-            'artist' => $Profile->artist,
-            'title'  => $Profile->title,
+            'username'  => $Profile->username,
+            'firstname' => $Profile->firstname,
+            'lastname'  => $Profile->lastname,
+            'mobile'    => $Profile->mobile,
+            'interests' => $Profile->interests,
+            'occupation' => $Profile->occupation,
+            'about' => $Profile->about,
+            'image' => $Profile->image
         );
 
         $id = (int) $Profile->id;
