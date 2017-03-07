@@ -18,10 +18,10 @@ class PostController extends AbstractActionController {
 
     public function indexAction()
     {
-        $repo = $this->getPostTable()->fetchAll();
+        //$repo = $this->getPostTable()->fetchAll();
 
         return array(
-            'posts' => $repo,
+            //'posts' => $repo,
         );
 
     }

@@ -3,11 +3,11 @@
 return array(
     'controllers' => array(
         'invokables' => array(
-            'Post\Controller\Post' => 'Post\Controller\PostController',
+            'Post\Controller\Post' => \Post\Controller\PostController::class,
+            'Post\Controller\Image' => \Post\Controller\ImageController::class,
         ),
     ),
 
-    // The following section is new and should be added to your file
     'router' => array(
         'routes' => array(
             'post' => array(
@@ -20,6 +20,20 @@ return array(
                     ),
                     'defaults' => array(
                         'controller' => 'Post\Controller\Post',
+                        'action'     => 'index',
+                    ),
+                ),
+            ),
+            'image' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/image[/:action][/:id]',
+                    'constraints' => array(
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Post\Controller\Image',
                         'action'     => 'index',
                     ),
                 ),
