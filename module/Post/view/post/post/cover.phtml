@@ -1,1 +1,19 @@
-<h2>OMG</h2>
+<?php
+    $this->headTitle('Cover image');
+    $form->prepare();
+?>
+<div class="col-lg-10 col-lg-offset-1">
+    <div class="section text-center section-landing">
+        <h2 class="text-info">Please upload cover photo</h2>
+        <p>Please do it and make your post look nicer!</p>
+        <hr>
+    </div>
+
+    <div class="section">
+        <?= $this->form()->openTag($form) ?>
+        <?= $this->formRow($form->get('cover-file')) ?>
+        <button type="submit" class="btn btn-round btn-primary"><i class="material-icons">more</i> Crop</button>
+        <?= $this->form()->closeTag() ?>
+    </div>
+
+</div>

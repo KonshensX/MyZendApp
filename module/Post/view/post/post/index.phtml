@@ -1,22 +1,25 @@
 <?php
     $this->headTitle("Index page man");
 ?>
-<table class="table table-bordered ">
-    <thead>
-        <tr>
-            <td>Title</td>
-            <td>Price</td>
-            <td>Image</td>
-        </tr>
-    </thead>
-    <tbody>
-        <?php foreach ($posts as $post) : ?>
-            <tr>
-                <td><?= $post->title ?></td>
-                <td><?= $post->price ?></td>
-                <td><?= $post->image ?></td>
-            </tr>
-        <?php endforeach; ?>
-    </tbody>
+    <?php foreach ($posts as $post) : ?>
+        <div class="card" style="width: 300px; overflow: hidden; margin-left: 10px;">
+            <?php
+                if ($post->cover) {
+            ?>
+                <img class="card-img-top" src="<?= $this->basepath('../data/uploads/posts/' . $post->cover) ?> " alt="<?= $post->title ?>">
+            <?php
 
-</table>
+                } else {
+            ?>com
+                <img class="card-img-top" src="<?= $this->basepath('/img/no-cover.png') ?>" alt="Card image cap">
+            <?php
+
+                }
+            ?>
+            <div class="card-block" style="padding: 10px;">
+                <h4 class="card-title"><?= $post->title ?></h4>
+                <p class="card-text"><?= $post->description ?>.</p>
+                <a href="#" class="btn btn-primary">More <i class="material-icons">more</i></a>
+            </div>
+        </div>
+    <?php endforeach; ?>

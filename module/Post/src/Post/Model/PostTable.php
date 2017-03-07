@@ -34,8 +34,14 @@ class PostTable
     public function savePost(Post $post)
     {
         $data = array(
-            'artist' => $post->artist,
-            'title'  => $post->title,
+            'title' => $post->title,
+            'description'  => $post->description,
+            'date' => $post->date,
+            'owner' => $post->owner,
+            'price' => $post->price,
+            'phone' => $post->phone,
+            'email' => $post->email,
+            'cover' => $post->cover
         );
 
         $id = (int) $post->id;

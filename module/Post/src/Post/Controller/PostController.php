@@ -2,45 +2,90 @@
 
 namespace Post\Controller;
 
+use Post\CoverForm;
 use Post\Model\PostTable;
 use Post\Model\Post;
 use Post\Form\PostForm;
 use Zend\Mvc\Controller\AbstractActionController;
-use Zend\View\Helper\ViewModel;
 
 class PostController extends AbstractActionController {
 
     protected $postTable;
 
-    public function omgAction () {
-        return array();
-    }
-
-    public function indexAction()
-    {
-        //$repo = $this->getPostTable()->fetchAll();
-
-        return array(
-            //'posts' => $repo,
-        );
-
-    }
-    //TODO: Needs more work
-    //Try to upload a file an image
-    public function addAction () {
-        $form = new PostForm();
-
-        $form->get('submit')->setValue('Add');
+    public function coverAction () {
+        $form = new CoverForm();
 
         $request = $this->getRequest();
 
         if ($request->isPost()) {
-            die("This was reached!");
+
+            //When the form is actually valid
+            if ($form->isValid()) {
+                //Do stuff with the image
+                //Data gon' come through an ajax request
+            }
         }
 
-        return new ViewModel(array(
+        return array(
             'form' => $form
-        ));
+        );
+    }
+
+    public function indexAction()
+    {
+        $repo = $this->getPostTable()->fetchAll();
+
+        return array(
+            'posts' => $repo,
+        );
+
+    }
+    //TODO: Needs more work
+    //Try to upload a file an image //DONE
+    //try to crop the photo before inserting it
+    //Talking about the cover
+    public function addAction () {
+        $form = new PostForm();
+
+        $request = $this->getRequest();
+
+        if ($request->isPost()) {
+            $post = array_merge_recursive(
+                $request->getPost()->toArray(),
+                $request->getFiles()->toArray()
+            );
+            $postClass = new Post();
+
+            $form->setData($post);
+
+            //When the form is valid
+            if ($form->isValid()) {
+
+                $data = $form->getData();
+                //get the file name to store in the database
+                $filename = (explode('\\', $data['image-file']['tmp_name'])[1]);
+                $data['cover'] = $filename;
+                $tempdate = new \DateTime("now");
+                $tempdate = $tempdate->format('Y-m-d H:i:s');
+                $data['date'] = $tempdate;
+                $data['owner'] = "Current user";
+                $data['cover'] = $filename;
+                /*echo "<pre>";
+                var_dump($data);
+                echo "</pre>";
+                die();*/
+
+                $postClass->exchangeArray($data);
+
+                $this->getPostTable()->savePost($postClass);
+
+                return $this->redirect()->toRoute('post/index');
+            }
+        }
+
+        return array(
+            'form' => $form
+        );
     }
 
     public function editAction () {

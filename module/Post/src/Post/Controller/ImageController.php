@@ -8,7 +8,7 @@ class ImageController extends AbstractActionController {
 
     public function indexAction()
     {
-        
+        return array();
     }
 
 }

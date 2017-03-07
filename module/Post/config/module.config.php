@@ -43,7 +43,8 @@ return array(
 
     'view_manager' => array(
         'template_path_stack' => array(
-            'album' => __DIR__ . '/../view',
+            'post' => __DIR__ . '/../view',
+            'image' => __DIR__ . '/../view',
         ),
     ),
 );
