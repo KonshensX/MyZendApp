@@ -83,8 +83,8 @@ class PostForm extends Form {
         $file = new File('image-file');
         $file->setLabel('Image')
             ->setAttribute('id', 'image-file')
-            ->setAttribute('onChange', 'previewImage()');
-
+            ->setAttribute('onChange', 'previewImage()')
+            ->setAttribute('required', 'false');
         $this->add($file);
 
         //End of file input

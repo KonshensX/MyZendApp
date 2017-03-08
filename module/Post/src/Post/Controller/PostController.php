@@ -2,27 +2,68 @@
 
 namespace Post\Controller;
 
-use Post\CoverForm;
+use Post\Form\CoverForm;
 use Post\Model\PostTable;
 use Post\Model\Post;
 use Post\Form\PostForm;
 use Zend\Mvc\Controller\AbstractActionController;
+use Zend\View\Model\JsonModel;
+use Imagine\Gd\Imagine;
+use Imagine\Image\Box;
+use Imagine\Image\Point;
+use Imagine\Image\ImageInterface;
 
 class PostController extends AbstractActionController {
 
     protected $postTable;
 
     public function coverAction () {
+        $id = (int) $this->params()->fromRoute('id');
+
+        if (!$id) {
+            $this->redirect()->toRoute('post', array('action' => 'index'));
+        }
+
         $form = new CoverForm();
 
         $request = $this->getRequest();
+        if ($request->isXMLHttpRequest()) {
+            if ($request->isPost()) {
 
-        if ($request->isPost()) {
+                $post = array_merge_recursive(
+                    $request->getPost()->toArray(),
+                    $request->getFiles()->toArray()
+                );
+                $form->setData($post);
+                //When the form is actually valid
+                if ($form->isValid()) {
+                    //Do stuff with the image
+                    //Data gon' come through an ajax request
+                    $x = 0;
+                    $y = 0;
+                    $width = 0;
+                    $height = 0;
+                    $tmp_file = $_FILES['file-0']['tmp_name'];
+                    $filename = $_FILES['file-0']['name'];
+                    if(isset($_POST)) {
+                        $x = $_POST['x'];
+                        $y = $_POST['y'];
+                        $width = $_POST['width'];
+                        $height = $_POST['height'];
+                    }
+                    $imagine = new Imagine();
+                    $image = $imagine->open($tmp_file);
+                    $temp = explode('.', $filename);
 
-            //When the form is actually valid
-            if ($form->isValid()) {
-                //Do stuff with the image
-                //Data gon' come through an ajax request
+                    $filename = $temp[0] . $temp[1] . '.' . $temp[2];
+                    $image
+                        ->crop(new Point($x, $y), new Box($width, $height))
+                        ->save(getcwd() . '/data/uploads/covers/' . $filename);
+                    //Save the name of the image to the database
+                    return json_encode(array(
+                        'message' => 'success'
+                    ));
+                }
             }
         }
 
@@ -50,17 +91,16 @@ class PostController extends AbstractActionController {
         $request = $this->getRequest();
 
         if ($request->isPost()) {
-            $post = array_merge_recursive(
-                $request->getPost()->toArray(),
-                $request->getFiles()->toArray()
-            );
+
             $postClass = new Post();
 
-            $form->setData($post);
+            $form->setData($request->getPost());
+            echo "<pre>";
+            var_dump($request->getPost());
 
+            echo "</pre>";
             //When the form is valid
             if ($form->isValid()) {
-
                 $data = $form->getData();
                 //get the file name to store in the database
                 $filename = (explode('\\', $data['image-file']['tmp_name'])[1]);
@@ -69,17 +109,12 @@ class PostController extends AbstractActionController {
                 $tempdate = $tempdate->format('Y-m-d H:i:s');
                 $data['date'] = $tempdate;
                 $data['owner'] = "Current user";
-                $data['cover'] = $filename;
-                /*echo "<pre>";
-                var_dump($data);
-                echo "</pre>";
-                die();*/
+                $data['cover'] = null;
 
                 $postClass->exchangeArray($data);
 
                 $this->getPostTable()->savePost($postClass);
-
-                return $this->redirect()->toRoute('post/index');
+                return $this->redirect()->toRoute('post', array('action' => 'cover', 'id' => 'draag'));
             }
         }
 
@@ -96,11 +131,7 @@ class PostController extends AbstractActionController {
                 'action' => 'index'
             ));
         }
-        $post = new Post();
-        $post->id = 22;
-        $post->title = "My Post Title";
-        $post->price = 25.99;
-        $post->imagepath = "\\localfff";
+        //Post class
 
         $form = new PostForm();
         $form->bind($post);

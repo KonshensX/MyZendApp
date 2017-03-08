@@ -1,4 +1,3 @@
-
 function previewImage() {
     var preview = document.querySelector('.preview');
     var file    = document.querySelector('input[type=file]').files[0];
@@ -15,7 +14,7 @@ function previewImage() {
     setInterval(function(){
         var image = document.getElementById('image');
         var cropper = new Cropper(image, {
-            aspectRatio: 1 / 1,
+            aspectRatio: 300 / 180,
             crop: function(e) {
                 x = e.detail.x;
                 y = e.detail.y;
@@ -24,6 +23,34 @@ function previewImage() {
             }
         });
     }, 10);
-
-
 }
+
+//JQuery functions being called down bellow
+$(document).ready(function () {
+    $('#upload-form').on('submit', function(e) {
+        e.preventDefault();
+        var form = $(this); //This is useless
+        var url = $(this).attr('action');
+        var some = $('#image-input')[0].files;
+        var data = new FormData(some);
+        data.append('file-0', some[0]);
+        data.append('x', x);
+        data.append('y', y);
+        data.append('width', width);
+        data.append('height', height);
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: data,
+            contentType: false,
+            processData: false
+        });
+
+    });
+
+
+    $('#myForm').on('submit', function (e) {
+        e.preventDefault();
+        console.log("s");
+    });
+});
