@@ -18,13 +18,17 @@ class PostController extends AbstractActionController {
     protected $postTable;
 
     public function coverAction () {
-        $id = (int) $this->params()->fromRoute('id');
+        $id = (int) $this->params()->fromRoute('id', 3);
 
-        if (!$id) {
+        /*if (!$id) {
             $this->redirect()->toRoute('post', array('action' => 'index'));
         }
+        var_dump($id);
+        */
 
         $form = new CoverForm();
+
+        $post = $this->getPostTable()->getPost($id);
 
         $request = $this->getRequest();
         if ($request->isXMLHttpRequest()) {
@@ -59,6 +63,11 @@ class PostController extends AbstractActionController {
                     $image
                         ->crop(new Point($x, $y), new Box($width, $height))
                         ->save(getcwd() . '/data/uploads/covers/' . $filename);
+
+                    $post->cover = $filename;
+
+                    //$this->getPostTable()->savePost($post);
+
                     //Save the name of the image to the database
                     return json_encode(array(
                         'message' => 'success'
@@ -93,28 +102,37 @@ class PostController extends AbstractActionController {
         if ($request->isPost()) {
 
             $postClass = new Post();
-
-            $form->setData($request->getPost());
+            $post = array_merge_recursive(
+                $request->getPost()->toArray()
+            );
+            $form->setData($post);
+            /*
             echo "<pre>";
-            var_dump($request->getPost());
+                var_dump(!is_array($post));
+                echo "</pre>";
+            die();
+            */
 
-            echo "</pre>";
             //When the form is valid
             if ($form->isValid()) {
                 $data = $form->getData();
                 //get the file name to store in the database
-                $filename = (explode('\\', $data['image-file']['tmp_name'])[1]);
-                $data['cover'] = $filename;
+                //$filename = (explode('\\', $data['image-file']['tmp_name'])[1]);
+                //$data['cover'] = $filename;
                 $tempdate = new \DateTime("now");
                 $tempdate = $tempdate->format('Y-m-d H:i:s');
                 $data['date'] = $tempdate;
                 $data['owner'] = "Current user";
-                $data['cover'] = null;
+                //$data['cover'] = null;
 
                 $postClass->exchangeArray($data);
 
                 $this->getPostTable()->savePost($postClass);
-                return $this->redirect()->toRoute('post', array('action' => 'cover', 'id' => 'draag'));
+                /*$lastInsertedId = $this->getPostTable()->lastInsertValue;
+                var_dump($lastInsertedId);
+                die("end of script");*/
+                //After adding the post redirect to the cover action to crop and save the cover
+                return $this->redirect()->toRoute('post', array('action' => 'cover'));
             }
         }
 

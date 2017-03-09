@@ -20,6 +20,8 @@ class PostTable
         return $resultSet;
     }
 
+    
+
     public function getPost($id)
     {
         $id  = (int) $id;

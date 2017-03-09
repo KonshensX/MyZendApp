@@ -80,6 +80,7 @@ class PostForm extends Form {
         ));
 
         //This need to be a file input with a preview to insert the cover
+        //now the cover is being handled in different action
         $file = new File('image-file');
         $file->setLabel('Image')
             ->setAttribute('id', 'image-file')
@@ -89,7 +90,7 @@ class PostForm extends Form {
 
         //End of file input
 
-        $this->addInputFilter();
+       // $this->addInputFilter();
     }
     public function addInputFilter()
     {

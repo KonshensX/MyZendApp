@@ -25,5 +25,10 @@ class Post {
         $this->email = (!empty($data['email'])) ? $data['email'] : null;
         $this->cover = (!empty($data['cover'])) ? $data['cover'] : null;
     }
+
+    public function getArrayCopy()
+    {
+        return get_object_vars($this);
+    }
 }
 
