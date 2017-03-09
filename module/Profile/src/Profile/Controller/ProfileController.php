@@ -54,17 +54,15 @@ class ProfileController extends AbstractActionController {
 
     public function displayAction () {
 
-        $form = new ProfileForm();
-
-        $request  = $this->getRequest();
-
-        if ($request->isPost()) {
-            var_dump($request->getFiles());
-            die();
+        $id = (int) $this->params()->fromRoute('id', 1);
+        if (!$id) {
+            return $this->redirect()->toRoute('post', array('action' => 'index'));
         }
+        //Need the id of the profile to get information from the database
+        $profile = $this->getProfileTable()->getProfile(array('id' => '2'));
 
         return array(
-            'form' => $form
+            'profile' => $profile
         );
     }
 
@@ -100,5 +98,6 @@ class ProfileController extends AbstractActionController {
             'form' => $form
         );
     }
+
 
 }

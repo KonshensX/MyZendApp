@@ -1,83 +1,38 @@
 <?php
-    //Preparing teh form and stuff
-    $this->headTitle('Profile page');
-    $form->setAttribute('profile', $this->url('profile', array('action' => 'edit')));
-    $form->prepare();
+    $this->headTitle($profile->username . ' Profile page');
 ?>
-<div class="col-lg-8">
-    <div class="section section-landing">
-        <h4 class="text-center">This is some text</h4>
-        <p class="text-center">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-        <hr>
-        <div class="well-lg">
-        <?= $this->form()->openTag($form) ?>
-        <?= $this->formHidden($form->get('id')) ?>
-            <div class="form-group label-floating">
-            <label class="control-label">
-                <?= $this->formLabel($form->get('username')) ?>
-            </label>
-            <?= $this->formInput($form->get('username')) ?>
-        </div>
-
-        <div class="form-group">
-            <label class="">
-                <?= $this->formLabel($form->get('firstname')) ?>
-            </label>
-            <?= $this->formInput($form->get('firstname')) ?>
-        </div>
-
-        <div class="form-group">
-            <label class="">
-                <?= $this->formLabel($form->get('lastname')) ?>
-            </label>
-            <?= $this->formInput($form->get('lastname')) ?>
-        </div>
-
-        <div class="form-group">
-            <label class="">
-                <?= $this->formLabel($form->get('mobile')) ?>
-            </label>
-            <?= $this->formInput($form->get('mobile')) ?>
-        </div>
-
-        <div class="form-group">
-            <label class="">
-                <?= $this->formLabel($form->get('interests')) ?>
-            </label>
-            <?= $this->formInput($form->get('interests')) ?>
-        </div>
-
-        <div class="form-group">
-            <label class="">
-                <?= $this->formLabel($form->get('occupation')) ?>
-            </label>
-            <?= $this->formInput($form->get('occupation')) ?>
-        </div>
-
-        <div class="form-group">
-            <label class="">
-                <?= $this->formLabel($form->get('about')) ?>
-            </label>
-            <?= $this->formTextarea($form->get('about')) ?>
-        </div>
-
-        <div class="form-group">
-            <?= $this->formRow($form->get('Image')) ?>
-        </div>
-
-        <?= $this->formRow($form->get('save')) ?>
-        <?= $this->form()->closeTag() ?>
-        </div>
+<div class="section section-landing">
+    <div class="avatar">
+        <img class="img-responsive img-rounded img-raised center-block" src="<?= $this->basepath('../data/uploads/' . $profile->image) ?>">
     </div>
-</div>
+    <h2 class="text-center"><?= $profile->firstname . ' ' . $profile->lastname . '<br> A.K.A <br>  ' . $profile->username ?></h2>
+    <h6 class="text-center text-uppercase"><?= $profile->occupation ?></h6>
+    <p class="text-center description"><?= $profile->about ?></p>
+    <hr>
 
-<div class="col-lg-4">
-    <div class="panel panel-info">
-        <div class="panel-title">
-            Sidebar
-        </div>
-        <div class="panel-body">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eius fugit laboriosam repudiandae vero. A assumenda aut culpa eaque eos fugiat, libero magnam minus natus nulla quisquam repellat, sequi similique? Atque?</p>
+    <div class="section section-landing">
+        <h5 class="text-center text-uppercase"><?= $profile->username ?> influence</h5>
+
+        <div class="profile-tabs">
+            <div class="nav-align-center">
+                <ul class="nav nav-pills">
+                    <li class="active">
+                        <a class="" data-toggle="tab" href="#posts">Posts</a>
+                    </li>
+                    <li>
+                        <a class="" data-toggle="tab" href="#wow">Wow</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content">
+                    <div class="tab-pane" id="posts">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae quisquam suscipit vel! At atque aut autem doloremque ea facilis impedit, laudantium molestias neque quasi reiciendis, saepe ut veniam, veritatis vitae.</p>
+                    </div>
+                    <div class="tab-pane" id="wow">
+                        <p>another Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum neque odit omnis reprehenderit sapiente tempora tenetur? Accusamus at autem, hic iste itaque labore nemo nesciunt, rem, saepe sit vero voluptatibus!</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

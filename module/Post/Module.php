@@ -11,6 +11,7 @@ use Zend\ModuleManager\Feature\ConfigProviderInterface;
 
 class Module implements AutoloaderProviderInterface, ConfigProviderInterface
 {
+    protected $adapter;
     public function getAutoloaderConfig()
     {
         return array(
@@ -49,4 +50,6 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface
             ),
         );
     }
+
+   
 }

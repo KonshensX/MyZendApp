@@ -6,6 +6,7 @@ use Post\Form\CoverForm;
 use Post\Model\PostTable;
 use Post\Model\Post;
 use Post\Form\PostForm;
+use Zend\Db\Sql\Sql;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
 use Imagine\Gd\Imagine;
@@ -15,16 +16,20 @@ use Imagine\Image\ImageInterface;
 
 class PostController extends AbstractActionController {
 
+    public function __construct()
+    {
+
+    }
+
+    protected $adapter;
     protected $postTable;
 
     public function coverAction () {
-        $id = (int) $this->params()->fromRoute('id', 3);
+        $id = (int) $this->params()->fromRoute('id', 0);
 
-        /*if (!$id) {
+        if (!$id) {
             $this->redirect()->toRoute('post', array('action' => 'index'));
         }
-        var_dump($id);
-        */
 
         $form = new CoverForm();
 
@@ -64,6 +69,20 @@ class PostController extends AbstractActionController {
                         ->crop(new Point($x, $y), new Box($width, $height))
                         ->save(getcwd() . '/data/uploads/covers/' . $filename);
 
+                    //This updates the cover
+                    $this->getAdapter();
+                    $keys = array(
+                        'cover' => $filename,
+                    );
+                    $sql = new Sql($this->adapter);
+                    $update = $sql->update();
+                    $update->table('post');
+                    $update->set($keys);
+                    $update->where(array('id' => $id));
+
+                    $statement = $sql->prepareStatementForSqlObject($update);
+                    $result = $statement->execute();
+
                     $post->cover = $filename;
 
                     //$this->getPostTable()->savePost($post);
@@ -99,6 +118,19 @@ class PostController extends AbstractActionController {
 
         $request = $this->getRequest();
 
+        $this->getAdapter();
+        $sql = new Sql($this->adapter);
+        $select = $sql->select();
+        $select->from('post');
+        $select->where(array('id' => '1'));
+
+        $statement = $sql->prepareStatementForSqlObject($select);
+        $result = $statement->execute();
+        echo "<pre>";
+        var_dump($result);
+        echo "</pre>";
+        //die("end of script");
+
         if ($request->isPost()) {
 
             $postClass = new Post();
@@ -131,7 +163,8 @@ class PostController extends AbstractActionController {
                 /*$lastInsertedId = $this->getPostTable()->lastInsertValue;
                 var_dump($lastInsertedId);
                 die("end of script");*/
-                //After adding the post redirect to the cover action to crop and save the cover
+
+                //After adding the post redirect to the cover action to crop and save the cover, include the id of the post
                 return $this->redirect()->toRoute('post', array('action' => 'cover'));
             }
         }
@@ -170,6 +203,11 @@ class PostController extends AbstractActionController {
         //TODO
     }
 
+    public function displayAction () {
+        //Needs the id of the profile
+        return array();
+    }
+
     public function getPostTable () {
 
         if (!$this->postTable) {
@@ -177,6 +215,16 @@ class PostController extends AbstractActionController {
             $this->postTable = $sm->get(PostTable::class);
         }
         return $this->postTable;
+    }
+
+
+    public function getAdapter()
+    {
+        if (!$this->adapter) {
+            $sm = $this->getServiceLocator();
+            $this->adapter = $sm->get('Zend\Db\Adapter\Adapter');
+        }
+        return $this->adapter;
     }
 
 }
