@@ -1,9 +1,14 @@
 <?php
     $this->headTitle($profile->username . ' Profile page');
 ?>
+<div class="col-lg-9 main main-raised">
 <div class="section section-landing">
     <div class="avatar">
-        <img class="img-responsive img-rounded img-raised center-block" src="<?= $this->basepath('../data/uploads/' . $profile->image) ?>">
+        <?php if ($profile->image) { ?>
+            <img class="img-responsive img-rounded img-raised center-block" src="<?= $this->basepath('../data/uploads/profile/' . $profile->image) ?>">
+        <?php } else { ?>
+            <img class="img-responsive img-rounded img-raised center-block" src="<?= $this->basepath('/img/profilepic.png') ?>">
+        <?php } ?>
     </div>
     <h2 class="text-center"><?= $profile->firstname . ' ' . $profile->lastname . '<br> A.K.A <br>  ' . $profile->username ?></h2>
     <h6 class="text-center text-uppercase"><?= $profile->occupation ?></h6>
@@ -35,4 +40,9 @@
             </div>
         </div>
     </div>
+</div>
+</div>
+
+<div class="col-lg-3 main main-raised">
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Esse fugiat, labore. Ad aliquam animi architecto, asperiores at dolore doloribus earum exercitationem in ipsam, laudantium minima perspiciatis quas repellat saepe, voluptatem.</p>
 </div>

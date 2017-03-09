@@ -24,6 +24,22 @@ class PostController extends AbstractActionController {
     protected $adapter;
     protected $postTable;
 
+    public function displayAction () {
+        $id = (int) $this->params()->fromRoute('id', 0);
+
+        if (!$id) {
+            return $this->redirect()->toRoute('post', array('action' => 'index'));
+        }
+
+
+        $post = $this->getPostTable()->getPost(array('id' => $id));
+        //var_dump($post);
+
+        return array(
+            'post' => $post
+        );
+    }
+
     public function coverAction () {
         $id = (int) $this->params()->fromRoute('id', 0);
 
@@ -103,7 +119,6 @@ class PostController extends AbstractActionController {
     public function indexAction()
     {
         $repo = $this->getPostTable()->fetchAll();
-
         return array(
             'posts' => $repo,
         );
@@ -201,11 +216,6 @@ class PostController extends AbstractActionController {
 
     public function deleteAction () {
         //TODO
-    }
-
-    public function displayAction () {
-        //Needs the id of the profile
-        return array();
     }
 
     public function getPostTable () {

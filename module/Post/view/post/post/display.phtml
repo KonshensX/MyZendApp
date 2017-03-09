@@ -1,13 +1,29 @@
+<?php
+    $this->headTitle($post->title);
+?>
+<div class="col-lg-9">
 <div class="section section-landing">
+    <div class="row">
+        <p>
+            <strong><span class="pull-left text-primary"><?= $post->title ?></span></strong>
+            <strong><span class="pull-right text-primary">Price : <?= $post->price ?></span></strong>
+        </p>
+    </div>
+    <hr>
     <div class="avatar">
         <img class="img-responsive img-rounded img-raised center-block" src="<?= $this->basepath('../public/img/no-cover.png') ?>">
     </div>
-    <h2 class="text-center">"Username Here"</h2>
-    <h6 class="text-center text-uppercase">occupation</h6>
-    <p class="text-center description">About paragraph</p>
+    <!--<h2 class="text-center">"Username Here"</h2>-->
+    <br>
+    <h6 class="text-center text-uppercase">Description</h6>
+    <p class="text-center description"><?= $post->description ?></p>
     <hr>
+<h1 class="text-center text-primary">GALLERY GON' BE HERE</h1>
 
+    <hr>
     <div class="section section-landing">
-        <h2></h2>
+        <h2>informations</h2>
+        
     </div>
+</div>
 </div>

@@ -117,7 +117,7 @@ class ProfileForm extends Form {
         $fileInput->getFilterChain()->attachByName(
             'filerenameupload',
             array(
-                'target'    => './data/uploads/avatar.png',
+                'target'    => './data/uploads/profile/avatar.png',
                 'randomize' => true,
             )
         );
