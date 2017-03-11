@@ -11,6 +11,8 @@
         "php": ">=5.3.3",
         "zendframework/zendframework": "~2.4.11",
         "zendframework/zftool": "dev-master",
-        "imagine/imagine": "^0.6.3"
+        "doctrine/doctrine-orm-module": "0.*",
+        "imagine/imagine": "^0.6.3",
+        "zf-commons/zfc-user": "dev-master"
     }
 }

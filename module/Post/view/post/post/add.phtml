@@ -3,70 +3,69 @@ $this->headTitle('Create new post');
 $form->setAttribute('action', $this->url('post', array('action' => 'add')));
 $form->prepare();
 ?>
-
+<div class="col-lg-9">
 <div class="section section-landing">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <h2 class="title">Add a new item</h2>
-            <h5 class="description">Please fill in the form below</h5>
-            <?= $this->form()->openTag($form); ?>
-            <div class="form-group">
-                <?= $this->formHidden($form->get('id')); ?>
-            </div>
-
-            <div class="col-lg-6">
-                <div class="form-group label-floating">
-                    <label class="control-label">
-                        <?= $this->formLabel($form->get('title')) ?>
-                    </label>
-                    <?= $this->formInput($form->get('title')) ?>
-                </div>
-            </div>
-
-            <div class="col-lg-6">
-                <div class="form-group label-floating">
-                    <label class="control-label">
-                        <?= $this->formLabel($form->get('price')) ?>
-                    </label>
-                    <?= $this->formInput($form->get('price')) ?>
-                </div>
-            </div>
-
-            <div class="col-lg-6">
-                <div class="form-group label-floating">
-                    <label class="control-label">
-                        <?= $this->formLabel($form->get('phone')) ?>
-                    </label>
-                    <?= $this->formInput($form->get('phone')) ?>
-                </div>
-            </div>
-
-            <div class="col-lg-6">
-                <div class="form-group label-floating">
-                    <label class="control-label">
-                        <?= $this->formLabel($form->get('email')) ?>
-                    </label>
-                    <?= $this->formInput($form->get('email')) ?>
-                </div>
-            </div>
-
-
-            <div class="col-lg-12">
-                <img class="img-responsive img-rounded preview" src="" alt="">
-            </div>
-            <br><br>
-            <div class="col-lg-12">
-                <div class="form-group label-floating">
-                    <label class="control-label">
-                        <?= $this->formLabel($form->get('description')) ?>
-                    </label>
-                    <?= $this->formTextarea($form->get('description')) ?>
-                </div>
-            </div>
-
-
-            <button class="btn btn-round btn-primary pull-right" type="submit"><i class="material-icons">add</i> Save</button>
-            <?= $this->form()->closeTag(); ?>
+        <h2 class="title">Add a new item</h2>
+        <h5 class="description">Please fill in the form below</h5>
+        <?= $this->form()->openTag($form); ?>
+        <div class="form-group">
+            <?= $this->formHidden($form->get('id')); ?>
         </div>
+
+        <div class="col-lg-6">
+            <div class="form-group label-floating">
+                <label class="control-label">
+                    <?= $this->formLabel($form->get('title')) ?>
+                </label>
+                <?= $this->formInput($form->get('title')) ?>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="form-group label-floating">
+                <label class="control-label">
+                    <?= $this->formLabel($form->get('price')) ?>
+                </label>
+                <?= $this->formInput($form->get('price')) ?>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="form-group label-floating">
+                <label class="control-label">
+                    <?= $this->formLabel($form->get('phone')) ?>
+                </label>
+                <?= $this->formInput($form->get('phone')) ?>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="form-group label-floating">
+                <label class="control-label">
+                    <?= $this->formLabel($form->get('email')) ?>
+                </label>
+                <?= $this->formInput($form->get('email')) ?>
+            </div>
+        </div>
+
+
+        <div class="col-lg-12">
+            <img class="img-responsive img-rounded preview" src="" alt="">
+        </div>
+        <br><br>
+        <div class="col-lg-12">
+            <div class="form-group label-floating">
+                <label class="control-label">
+                    <?= $this->formLabel($form->get('description')) ?>
+                </label>
+                <?= $this->formTextarea($form->get('description')) ?>
+            </div>
+        </div>
+
+
+        <button class="btn btn-round btn-primary pull-right" type="submit"><i class="material-icons">add</i> Save</button>
+        <?= $this->form()->closeTag(); ?>
     </div>
+</div>
 </div>

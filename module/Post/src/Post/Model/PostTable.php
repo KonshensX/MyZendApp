@@ -2,7 +2,12 @@
 
 namespace Post\Model;
 
+use Zend\Db\ResultSet\ResultSet;
+use Zend\Db\Sql\Select;
 use Zend\Db\TableGateway\TableGateway;
+use Zend\Paginator\Adapter\DbSelect;
+use Zend\Paginator\Paginator;
+use Zend\Stdlib\Response;
 
 class PostTable
 {
@@ -14,8 +19,24 @@ class PostTable
         $this->tableGateway = $tableGateway;
     }
 
-    public function fetchAll()
+    public function fetchAll($paginated = false)
     {
+        if ($paginated) {
+            //create a new sleect object for the table post
+            $select  = new Select('post');
+            //create new resultSet based on the post entity
+            $resultSet = new ResultSet();
+            $resultSet->setArrayObjectPrototype(new Post());
+            //create a new pagination adapter object
+            $paginationAdapter = new DbSelect(
+                //our configured select object,
+                $select,
+                $this->tableGateway->getAdapter(),
+                $resultSet
+            );
+            $paginator = new Paginator($paginationAdapter);
+            return $paginator;
+        }
         $resultSet = $this->tableGateway->select();
         return $resultSet;
     }
@@ -56,6 +77,7 @@ class PostTable
                 throw new \Exception('Post id does not exist');
             }
         }
+        return $this->tableGateway->getLastInsertValue();
     }
 
     public function deletePost($id)

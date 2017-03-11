@@ -4,18 +4,33 @@ namespace Profile\Controller;
 
 use Profile\Form\ImageUploadForm;
 use Profile\Form\ProfileForm;
-use Profile\Model\Profile;
+use Profile\Entity\Profile;
 use Profile\Model\ProfileTable;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Helper\ViewModel;
+use Doctrine\ORM\EntityManager;
 
 class ProfileController extends AbstractActionController {
 
     protected $profileTable;
+    /**
+     * @var DoctrineORMEntityManager
+     */
+    protected $em;
+
+    public function getEntityManager () {
+        if (null == $this->em) {
+            $this->em = $this->getServiceLocator()->get('doctrine.entitymanager.orm_default');
+        }
+        return $this->em;
+    }
 
     public function indexAction()
     {
-        $repo = $this->getProfileTable()->fetchAll();
+        $repo = $this->getEntityManager()->getRepository('Profile\Entity\Profile')->findAll();
+        var_dump($repo);
+        die();
+        //$repo = $this->getProfileTable()->fetchAll();
         //TODO
         return new ViewModel(array(
             '$repo' => $repo

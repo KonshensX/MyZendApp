@@ -22,7 +22,7 @@ function previewImage() {
                 height = e.detail.height;
             }
         });
-    }, 10);
+    }, 50);
 }
 
 //JQuery functions being called down bellow
@@ -30,9 +30,12 @@ $(document).ready(function () {
     $('#upload-form').on('submit', function(e) {
         e.preventDefault();
         var form = $(this); //This is useless
+        console.log(form);
         var url = $(this).attr('action');
+
         var some = $('#image-input')[0].files;
         var data = new FormData(some);
+        data.append('post_id', $('#id').attr('value'));
         data.append('file-0', some[0]);
         data.append('x', x);
         data.append('y', y);

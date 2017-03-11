@@ -3,7 +3,7 @@
     $form->setAttribute('id', 'upload-form')->setAttribute('action', $this->url('post', array('action' => 'cover')));
     $form->prepare();
 ?>
-<div class="col-lg-10 col-lg-offset-1">
+<div class="col-lg-9">
     <div class="section text-center section-landing">
         <h2 class="text-info">Please upload cover photo</h2>
         <p>Please do it and make your post look nicer!</p>
@@ -12,11 +12,12 @@
 
     <div class="section">
         <img class="img-responsive preview" src="" id="image">
+        <input type="hidden" id="id" name="id" value="<?= $id ?>">
         <?= $this->form()->openTag($form) ?>
         <?= $this->formRow($form->get('cover-file')) ?>
         <br>
         <button type="submit" id="freak" class="btn btn-round btn-primary pull-right"><i class="material-icons">more</i> Crop</button>
-        <?= $this->form()->closeTag() ?>
+        <?= $this->form()->closeTag() ?> 
     </div>
 
 </div>

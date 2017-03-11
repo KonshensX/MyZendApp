@@ -31,7 +31,6 @@ class PostController extends AbstractActionController {
             return $this->redirect()->toRoute('post', array('action' => 'index'));
         }
 
-
         $post = $this->getPostTable()->getPost(array('id' => $id));
         //var_dump($post);
 
@@ -43,6 +42,13 @@ class PostController extends AbstractActionController {
     public function coverAction () {
         $id = (int) $this->params()->fromRoute('id', 0);
 
+        $request = $this->getRequest();
+        if ($request->isXMLHttpRequest()) {
+            echo "post";
+            var_dump($this->params()->fromPost());
+            die();
+        }
+
         if (!$id) {
             $this->redirect()->toRoute('post', array('action' => 'index'));
         }
@@ -51,7 +57,8 @@ class PostController extends AbstractActionController {
 
         $post = $this->getPostTable()->getPost($id);
 
-        $request = $this->getRequest();
+
+
         if ($request->isXMLHttpRequest()) {
             if ($request->isPost()) {
 
@@ -61,6 +68,7 @@ class PostController extends AbstractActionController {
                 );
                 $form->setData($post);
                 //When the form is actually valid
+
                 if ($form->isValid()) {
                     //Do stuff with the image
                     //Data gon' come through an ajax request
@@ -99,7 +107,7 @@ class PostController extends AbstractActionController {
                     $statement = $sql->prepareStatementForSqlObject($update);
                     $result = $statement->execute();
 
-                    $post->cover = $filename;
+                    //$post->cover = $filename;
 
                     //$this->getPostTable()->savePost($post);
 
@@ -112,15 +120,23 @@ class PostController extends AbstractActionController {
         }
 
         return array(
-            'form' => $form
+            'form'  => $form,
+            'id'    => $id
         );
     }
 
     public function indexAction()
     {
-        $repo = $this->getPostTable()->fetchAll();
+        //get the paginator from the post table
+        $paginator = $this->getPostTable()->fetchAll(true);
+
+        //set the current page tp what has been passed in query string, or to 1 if none set
+        $paginator->setCurrentPageNumber((int) $this->params()->fromQuery('page', 1));
+        //set the number of items per page to 10
+        $paginator->setItemCountPerPage(10);
+
         return array(
-            'posts' => $repo,
+            'paginator' => $paginator
         );
 
     }
@@ -132,19 +148,6 @@ class PostController extends AbstractActionController {
         $form = new PostForm();
 
         $request = $this->getRequest();
-
-        $this->getAdapter();
-        $sql = new Sql($this->adapter);
-        $select = $sql->select();
-        $select->from('post');
-        $select->where(array('id' => '1'));
-
-        $statement = $sql->prepareStatementForSqlObject($select);
-        $result = $statement->execute();
-        echo "<pre>";
-        var_dump($result);
-        echo "</pre>";
-        //die("end of script");
 
         if ($request->isPost()) {
 
@@ -174,13 +177,10 @@ class PostController extends AbstractActionController {
 
                 $postClass->exchangeArray($data);
 
-                $this->getPostTable()->savePost($postClass);
-                /*$lastInsertedId = $this->getPostTable()->lastInsertValue;
-                var_dump($lastInsertedId);
-                die("end of script");*/
+                $myID = $this->getPostTable()->savePost($postClass);
 
                 //After adding the post redirect to the cover action to crop and save the cover, include the id of the post
-                return $this->redirect()->toRoute('post', array('action' => 'cover'));
+                return $this->redirect()->toRoute('post', array('action' => 'cover', 'id' => $myID));
             }
         }
 
@@ -236,5 +236,16 @@ class PostController extends AbstractActionController {
         }
         return $this->adapter;
     }
+
+    public function redirectAction()
+    {
+        return $this->redirect()->toRoute('post', array('action' => 'cover', 'id' => 46));
+    }
+
+    public function testingAction() {
+        var_dump($this->identity());
+        die();
+    }
+
 
 }

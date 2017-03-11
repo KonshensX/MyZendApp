@@ -46,44 +46,46 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">MyZendApp</a>
+                    <a class="navbar-brand" href="<?= $this->url('post', array('action' => 'index')) ?>">MyZendApp</a>
                 </div>
 
                 <div class="collapse navbar-collapse" id="navigation-example">
                     <ul class="nav navbar-nav">
+
                         <li>
-                            <a href="#" target="_blank">
-                                Components
-                            </a>
-                        </li>
-                        <li>
-                            <a href="<?= $this->url('post', array('action' => 'add')) ?>" target="_blank"> Add Post
+                            <a href="<?= $this->url('post', array('action' => 'add')) ?>"> Add Post
                             </a>
                         </li>
                         <li>
                             <a href="<?= $this->url('profile', array('action' => 'display')) ?>" target="_blank"> Add Profile
                             </a>
                         </li>
-                        <li>
-                            <a href="#" target="_blank"> Add Post
-                            </a>
-                        </li>
                     </ul>
                 </div>
             </div>
         </nav>
+        <?php
+            //This needs to be a search bar 
+        ?>
         <br><br>
-
+    <div class="col-lg-9">
         <div class="main main-raised" style="margin-top: 0px;">
             <div class="container">
-                <?php echo $this->content; ?>
+                <div class="col-lg-9">
+                    <?php echo $this->content; ?>
+                </div>
             </div>
         </div>
+    </div>
 
-        <hr>
-        <footer>
-            <p class="text-center"> Copyright &copy; 2015 - <?php echo date('Y') ?> Fabour <?php echo $this->translate('All rights reserved.') ?></p>
-        </footer>
+    <div class="col-lg-3">
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab, ad consequatur cum cumque deserunt dolorem eaque eligendi facere impedit incidunt nihil odit officia qui quia quisquam, ratione unde? Incidunt, quibusdam?</p>
+    </div>
+    <hr>
+        <div class="clearfix"></div>
+    <footer>
+        <p class="text-center"> Copyright &copy; 2015 - <?php echo date('Y') ?> Fabour <?php echo $this->translate('All rights reserved.') ?></p>
+    </footer>
 
         <?php echo $this->inlineScript() ?>
     </body>

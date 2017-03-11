@@ -106,7 +106,7 @@ class PostForm extends Form {
         // automatically.
         $fileInput->getValidatorChain()
             ->attachByName('filesize',      array('max' => 204800))
-            ->attachByName('filemimetype',  array('mimeType' => 'image/png,image/x-png'))
+            ->attachByName('filemimetype',  array('mimeType' => 'image/png,image/x-png, image/jpg, image/jpeg'))
             ->attachByName('fileimagesize', array('maxWidth' => 2000, 'maxHeight' => 2000));
 
         // All files will be renamed, i.e.:
