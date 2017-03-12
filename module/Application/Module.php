@@ -9,6 +9,7 @@
 
 namespace Application;
 
+use Application\Form\SearchForm;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
 
@@ -19,6 +20,16 @@ class Module
         $eventManager        = $e->getApplication()->getEventManager();
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
+        $app = $e->getParam('application');
+        $app->getEventManager()->attach(MvcEvent::EVENT_RENDER, array($this, 'setFormToView'), 100);
+    }
+
+    public function setFormToView ($event) {
+        $form = new SearchForm();
+        $viewModel = $event->getViewModel();
+        $viewModel->setVariables(array(
+            'form' => $form,
+        ));
     }
 
     public function getConfig()

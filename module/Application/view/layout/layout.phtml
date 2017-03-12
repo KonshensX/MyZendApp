@@ -1,4 +1,8 @@
-<?php $auth = new \Zend\Authentication\AuthenticationService(); echo $this->doctype(); ?>
+<?php $auth = new \Zend\Authentication\AuthenticationService();
+    echo $this->doctype();
+    var_dump($form);
+    die();
+?>
 
 <html lang="en">
     <head>
@@ -36,7 +40,7 @@
 
     </head>
     <body>
-    <?php if ($auth->getIdentity()) {?>
+    <?php if ($auth->hasIdentity()) {?>
         <nav class="navbar navbar-info">
             <div class="container">
                 <!-- Brand and toggle get grouped for better mobile display -->

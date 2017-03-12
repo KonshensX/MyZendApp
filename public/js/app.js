@@ -27,10 +27,10 @@ function previewImage() {
 
 //JQuery functions being called down bellow
 $(document).ready(function () {
+    $('#alertbox').hide();
     $('#upload-form').on('submit', function(e) {
         e.preventDefault();
         var form = $(this); //This is useless
-        console.log(form);
         var url = $(this).attr('action');
 
         var some = $('#image-input')[0].files;
@@ -46,7 +46,10 @@ $(document).ready(function () {
             url: url,
             data: data,
             contentType: false,
-            processData: false
+            processData: false,
+        })
+        .done(function () {
+            $('#alertbox').show();
         });
 
     });

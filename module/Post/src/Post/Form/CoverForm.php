@@ -12,6 +12,7 @@ class CoverForm extends Form {
     {
         parent::__construct($name);
         $file = new File('cover-file');
+        
         $file->setLabel('Cover')
             ->setAttribute('id', 'image-input')
             ->setAttribute('onChange', 'previewImage()');

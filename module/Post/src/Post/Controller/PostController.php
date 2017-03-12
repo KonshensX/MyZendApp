@@ -48,11 +48,9 @@ class PostController extends AbstractActionController {
 
         $request = $this->getRequest();
         if ($request->isXMLHttpRequest()) {
-            echo "post";
-            var_dump($this->params()->fromPost());
-            die();
+            $id = $this->params()->fromPost('post_id');
         }
-
+        
         if (!$id) {
             $this->redirect()->toRoute('post', array('action' => 'index'));
         }
