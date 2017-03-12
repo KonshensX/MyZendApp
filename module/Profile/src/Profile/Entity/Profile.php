@@ -21,7 +21,7 @@ class Profile implements InputFilterAwareInterface {
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="auto")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
 
@@ -33,7 +33,37 @@ class Profile implements InputFilterAwareInterface {
     /**
      * @ORM\Column(type="string")
      */
-    protected $fullname;
+    protected $firstname;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    protected $lastname;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    protected $mobile;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    protected $interests;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    protected $occupation;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    protected $about;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    protected $image;
 
     /**
      * Magic getter to expose protected properties.
@@ -117,7 +147,7 @@ class Profile implements InputFilterAwareInterface {
             ));
 
             $inputFilter->add(array(
-                'name'     => 'fullname',
+                'name'     => 'firstname',
                 'required' => true,
                 'filters'  => array(
                     array('name' => 'StripTags'),

@@ -59,6 +59,7 @@ return array(
         ),
         'aliases' => array(
             'translator' => 'MvcTranslator',
+
         ),
     ),
     'translator' => array(

@@ -19,6 +19,10 @@ class PostTable
         $this->tableGateway = $tableGateway;
     }
 
+    public function getTableGateway() {
+        return $this->tableGateway;
+    }
+
     public function fetchAll($paginated = false)
     {
         if ($paginated) {

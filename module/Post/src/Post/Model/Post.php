@@ -14,6 +14,8 @@ class Post {
     public $cover;
     public $views;
 
+    protected $images;
+
     public function exchangeArray ($data) {
         $this->id = (!empty($data['id'])) ? $data['id'] : null;
         $this->title = (!empty($data['title'])) ? $data['title'] : null;
@@ -30,5 +32,23 @@ class Post {
     {
         return get_object_vars($this);
     }
+
+    /**
+     * @return mixed
+     */
+    public function getImages()
+    {
+        return $this->images;
+    }
+
+    /**
+     * @param mixed $images
+     */
+    public function setImages($images)
+    {
+        $this->images = $images;
+    }
+
+
 }
 

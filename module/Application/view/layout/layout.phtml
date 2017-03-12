@@ -1,4 +1,4 @@
-<?php echo $this->doctype(); ?>
+<?php $auth = new \Zend\Authentication\AuthenticationService(); echo $this->doctype(); ?>
 
 <html lang="en">
     <head>
@@ -30,12 +30,13 @@
                 ->appendFile($this->basePath() . '/js/cropper.js')
                 ->appendFile($this->basePath() . '/js/app.js')
                 ->appendFile($this->basePath() . '/js/material.min.js')
-                ->appendFile($this->basePath() . '/js/material-kit.js')
+            ->appendFile($this->basePath() . '/js/material-kit.js')
             //<!-- Scripts -->
         ; ?>
 
     </head>
     <body>
+    <?php if ($auth->getIdentity()) {?>
         <nav class="navbar navbar-info">
             <div class="container">
                 <!-- Brand and toggle get grouped for better mobile display -->
@@ -64,8 +65,41 @@
                 </div>
             </div>
         </nav>
+    <?php } else { ?>
+        <nav class="navbar navbar-info">
+            <div class="container">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation-example">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="<?= $this->url('post', array('action' => 'index')) ?>">MyZendApp</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="navigation-example">
+                    <ul class="nav navbar-nav pull-right">
+
+                        <li>
+                            <a href="<?php $this->url('zfcuser/login') ?>"><i class="material-icons">input</i> LOGIN
+                            </a>
+                        </li>
+                        <li>
+                            <a href="<?= $this->url('zfcuser/register') ?>" ><i class="material-icons">open_in_browser</i> REGISTER
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    <?php } ?>
+
+
+    <?php $this->partial('partial/search');  ?>
         <?php
-            //This needs to be a search bar 
+            //This needs to be a search bar
         ?>
         <br><br>
     <div class="col-lg-9">

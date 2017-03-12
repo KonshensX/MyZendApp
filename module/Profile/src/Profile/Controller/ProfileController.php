@@ -28,8 +28,6 @@ class ProfileController extends AbstractActionController {
     public function indexAction()
     {
         $repo = $this->getEntityManager()->getRepository('Profile\Entity\Profile')->findAll();
-        var_dump($repo);
-        die();
         //$repo = $this->getProfileTable()->fetchAll();
         //TODO
         return new ViewModel(array(
@@ -74,7 +72,7 @@ class ProfileController extends AbstractActionController {
             return $this->redirect()->toRoute('post', array('action' => 'index'));
         }
         //Need the id of the profile to get information from the database
-        $profile = $this->getProfileTable()->getProfile(array('id' => '2'));
+        $profile = $this->getEntityManager()->getRepository(Profile::class)->findOneBy(array('id' => $id));
 
         return array(
             'profile' => $profile
@@ -111,6 +109,17 @@ class ProfileController extends AbstractActionController {
         }
         return array(
             'form' => $form
+        );
+    }
+
+    public function testingAction () {
+        $repo = $this->getEntityManager()->getRepository(Profile::class)->findAll();
+        echo "<pre>";
+        print_r($repo);
+        echo "<pre>";
+        die();
+        return array(
+            '$repo' => $repo
         );
     }
 

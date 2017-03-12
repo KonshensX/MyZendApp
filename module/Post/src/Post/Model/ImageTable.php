@@ -2,6 +2,7 @@
 
 namespace Image\Model;
 
+use Post\Model\Image;
 use Zend\Db\TableGateway\TableGateway;
 
 class ImageTable  {
@@ -10,6 +11,10 @@ class ImageTable  {
     public function __construct(TableGateway $tableGateway)
     {
         $this->tableGateway = $tableGateway;
+    }
+
+    public function getTableGateway () {
+        return $this->tableGateway;
     }
 
     public function fetchAll()
@@ -32,8 +37,8 @@ class ImageTable  {
     public function saveImage(Image $Image)
     {
         $data = array(
-            'artist' => $Image->artist,
-            'title'  => $Image->title,
+            'post_id' => $Image->post_id,
+            'name'  => $Image->name,
         );
 
         $id = (int) $Image->id;

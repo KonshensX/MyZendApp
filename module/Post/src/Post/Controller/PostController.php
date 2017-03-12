@@ -3,9 +3,11 @@
 namespace Post\Controller;
 
 use Post\Form\CoverForm;
+use Post\Model\PostImageMapper;
 use Post\Model\PostTable;
 use Post\Model\Post;
 use Post\Form\PostForm;
+use Zend\Authentication\AuthenticationService;
 use Zend\Db\Sql\Sql;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
@@ -16,13 +18,15 @@ use Imagine\Image\ImageInterface;
 
 class PostController extends AbstractActionController {
 
-    public function __construct()
-    {
-
-    }
-
     protected $adapter;
     protected $postTable;
+    protected $mapper;
+
+    public function __construct()
+    {
+        //$this->mapper = $mapper;
+    }
+
 
     public function displayAction () {
         $id = (int) $this->params()->fromRoute('id', 0);
@@ -127,9 +131,11 @@ class PostController extends AbstractActionController {
 
     public function indexAction()
     {
+        $auth = new AuthenticationService();
+        
         //get the paginator from the post table
         $paginator = $this->getPostTable()->fetchAll(true);
-
+        
         //set the current page tp what has been passed in query string, or to 1 if none set
         $paginator->setCurrentPageNumber((int) $this->params()->fromQuery('page', 1));
         //set the number of items per page to 10
@@ -243,8 +249,10 @@ class PostController extends AbstractActionController {
     }
 
     public function testingAction() {
-        var_dump($this->identity());
-        die();
+        //$repo = $this->getEntityManager()
+        //$repo = $this->mapper->findAll();
+        //var_dump($repo);
+        die('"fuck"');
     }
 
 
