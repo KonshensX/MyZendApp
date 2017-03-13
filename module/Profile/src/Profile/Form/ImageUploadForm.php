@@ -12,7 +12,7 @@ class ImageUploadForm extends Form
     {
         parent::__construct($name, $options);
         $this->addElements();
-        $this->addInputFilter();
+        //$this->addInputFilter();
     }
 
     public function addElements()
@@ -20,10 +20,12 @@ class ImageUploadForm extends Form
         // File Input
         $file = new Element\File('image-file');
         $file->setLabel('Avatar Image Upload')
-            ->setAttribute('id', 'image-file');
+            ->setAttribute('onChange', 'previewAvatar()')
+            ->setAttribute('id', 'image');
+
         $this->add($file);
     }
-
+    /*
     public function addInputFilter()
     {
         $inputFilter = new InputFilter\InputFilter();
@@ -38,7 +40,7 @@ class ImageUploadForm extends Form
         // automatically.
         $fileInput->getValidatorChain()
             ->attachByName('filesize',      array('max' => 204800))
-            ->attachByName('filemimetype',  array('mimeType' => 'image/png,image/x-png'))
+            ->attachByName('filemimetype',  array('mimeType' => 'image/png,image/x-png, image/jpeg, image/jpg'))
             ->attachByName('fileimagesize', array('maxWidth' => 2000, 'maxHeight' => 2000));
 
         // All files will be renamed, i.e.:
@@ -55,4 +57,5 @@ class ImageUploadForm extends Form
 
         $this->setInputFilter($inputFilter);
     }
+    */
 }

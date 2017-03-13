@@ -63,10 +63,6 @@
                             <a href="<?= $this->url('post', array('action' => 'add')) ?>"> Add Post
                             </a>
                         </li>
-                        <li>
-                            <a href="<?= $this->url('profile', array('action' => 'display')) ?>"> Add Profile
-                            </a>
-                        </li>
                     </ul>
                     <div class="col-sm-6 col-md-6">
                         <?= $this->form()->openTag($form) ?>
@@ -81,7 +77,14 @@
                     
                     <ul class="nav navbar-nav">
                         <li>
-                            <a href="<?php $this->url('profile',array('action' => 'display', 'id' => $profile->id)) ?>">
+                            <?php if (!$profile->image) { ?>
+                                <img height="30px" width="30px" class="img-responsive img-circle" src="<?= $this->basepath('../public/img/profilepic.png') ?>" alt="">
+                            <?php } else { ?>
+                                <img height="30px" width="30px" class="img-responsive img-circle" src="<?= $this->basepath('../data/uploads/profile/' . $profile->image ) ?>" alt="">
+                            <?php } ?>
+                        </li>
+                        <li>
+                            <a href="<?= $this->url('profile', array('action' => 'display', 'id' => $profile->id)) ?>">
                                 <i class="material-icons">face</i><strong><?= $profile->username ?></strong>
                             </a>
                         </li>

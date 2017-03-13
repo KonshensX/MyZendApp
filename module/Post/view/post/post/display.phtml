@@ -12,7 +12,11 @@
         </div>
         <hr>
         <div class="avatar">
-            <img class="img-responsive img-rounded img-raised center-block" src="<?= $this->basepath('../public/img/no-cover.png') ?>">
+            <?php if ($post->cover) {  ?>
+                <img class="img-responsive img-rounded img-raised center-block" src="<?= $this->basepath('../data/uploads/covers/' . $post->cover) ?>">
+            <?php } else { ?>
+                <img class="img-responsive img-rounded img-raised center-block" src="<?= $this->basepath('../public/img/no-cover.png') ?>">
+            <?php } ?>
         </div>
         <!--<h2 class="text-center">"Username Here"</h2>-->
         <br>
@@ -28,3 +32,5 @@
         </div>
     </div>
 </div>
+
+

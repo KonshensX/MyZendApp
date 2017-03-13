@@ -55,12 +55,27 @@ class PostTable
         if (!$row) {
             throw new \Exception("Could not find row $id");
         }
+        var_dump($id);
+
         return $row;
     }
 
     public function getPostByTitle($title) {
 
         $rowset = $this->tableGateway->select($title);
+
+        $result = [];
+
+        foreach ($rowset as $row) {
+            array_push($result, $row);
+        }
+
+        return $result;
+    }
+
+    public function getPostBy($options) {
+
+        $rowset = $this->tableGateway->select($options);
 
         $result = [];
 

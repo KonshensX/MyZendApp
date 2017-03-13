@@ -1,14 +1,30 @@
-<?php $form->prepare(); // The correct enctype is set here ?>
+<?php
+    $form->setAttribute('id', 'myForm');
+    $form->setAttribute('action', $this->url('profile', array('action' => 'upload')));
+    $form->prepare(); // The correct enctype is set here ?>
 
+<div class="alert alert-success" id="alertbox">
+    <div class="container-fluid">
+        <div class="alert-icon">
+            <i class="material-icons">check</i>
+        </div>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true"><i class="material-icons">clear</i></span>
+        </button>
+        <b>Success Alert:</b> Your photo was successfully saved!
+    </div>
+</div>
 <div class="form-element">
-
+    <img class="img-responsive preview" src="" id="image-file">
     <?= $this->form()->openTag($form) ?>
     <?php $fileElement = $form->get('image-file'); ?>
     <?php echo $this->formLabel($fileElement); ?>
     <?php echo $this->formFile($fileElement); ?>
     <?php echo $this->formElementErrors($fileElement); ?>
-    <button type="submit">Upload</button>
+    <button type="submit" class="btn btn-round btn-info pull-right"><i class="material-icons">crop</i> Crop</button>
 
     <?= $this->form()->closeTag() ?>
 
 </div>
+
+<div class="clearfix"></div>

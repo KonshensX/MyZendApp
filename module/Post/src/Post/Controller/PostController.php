@@ -34,12 +34,10 @@ class PostController extends AbstractActionController {
         if (!$id) {
             return $this->redirect()->toRoute('post', array('action' => 'index'));
         }
-
-        $post = $this->getPostTable()->getPost(array('id' => $id));
-        //var_dump($post);
-
+        $post = $this->getPostTable()->getPostBy(array('id' => $id));
+        
         return array(
-            'post' => $post
+            'post' => $post[0]
         );
     }
 

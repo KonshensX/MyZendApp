@@ -2,6 +2,9 @@
 
 namespace Profile\Controller;
 
+use Imagine\Gd\Imagine;
+use Imagine\Image\Box;
+use Imagine\Image\Point;
 use Profile\Form\ImageUploadForm;
 use Profile\Form\ProfileForm;
 use Profile\Entity\Profile;
@@ -68,7 +71,7 @@ class ProfileController extends AbstractActionController {
 
     public function displayAction () {
 
-        $id = (int) $this->params()->fromRoute('id', 1);
+        $id = (int) $this->params()->fromRoute('id', 0);
         if (!$id) {
             return $this->redirect()->toRoute('post', array('action' => 'index'));
         }
@@ -94,20 +97,80 @@ class ProfileController extends AbstractActionController {
 
         $request = $this->getRequest();
 
-        if ($request->isPost()) {
-            $post = array_merge_recursive(
-                $request->getPost()->toArray(),
-                $request->getFiles()->toArray()
-            );
+        if ($request->isXMLHttpRequest()) {
+            if ($request->isPost()) {
 
-            $form->setData($post);
+                $post = array_merge_recursive(
+                    $request->getPost()->toArray(),
+                    $request->getFiles()->toArray()
+                );
+                $form->setData($post);
+                //When the form is actually valid
 
-            //When the data is valid
-            if ($form->isValid()) {
-                $data = $form->getData();
+                if ($form->isValid()) {
+                    //Do stuff with the image
+                    //Data gon' come through an ajax request
+                    $x = 0;
+                    $y = 0;
+                    $width = 0;
+                    $height = 0;
+                    $tmp_file = $_FILES['file-0']['tmp_name'];
+                    $filename = $_FILES['file-0']['name'];
+                    if(isset($_POST)) {
+                        $x = $_POST['x'];
+                        $y = $_POST['y'];
+                        $width = $_POST['width'];
+                        $height = $_POST['height'];
+                    }
+                    $imagine = new Imagine();
+                    $image = $imagine->open($tmp_file);
+                    $temp = explode('.', $filename);
+
+                    $filename = $temp[0] . $temp[1] . '.' . $temp[2];
+                    $image
+                        ->crop(new Point($x, $y), new Box($width, $height))
+                        ->save(getcwd() . '/data/uploads/profile/' . $filename);
+
+                    /*
+                    //This updates the cover
+                    $this->getAdapter();
+                    $keys = array(
+                        'cover' => $filename,
+                    );
+                     This should be replaced with some doctrine 2 goodness
+                    $sql = new Sql($this->adapter);
+                    $update = $sql->update();
+                    $update->table('profile');
+                    $update->set($keys);
+                    $update->where(array('id' => $id));
+
+
+                    $statement = $sql->prepareStatementForSqlObject($update);
+                    $result = $statement->execute();
+                    */
+                    //$post->cover = $filename;
+
+                    //$this->getPostTable()->savePost($post);
+
+                    //Save the name of the image to the database
+                    $auth = new AuthenticationService();
+                    $profile = $this->getEntityManager()->getRepository(Profile::class)->findOneBy(array(
+                        'id' => $auth->getIdentity()
+                    ));
+                    $profile->image = $filename;
+
+                    $this->getEntityManager()->persist($profile);
+                    $this->getEntityManager()->flush();
+
+
+                    return json_encode(array(
+                        'message' => 'success'
+                    ));
+                }
             }
-
         }
+
+
         return array(
             'form' => $form
         );
@@ -121,13 +184,11 @@ class ProfileController extends AbstractActionController {
         //$repo = $em->getRepository(Profile::class)->findAll();
         $repo = $this->getEntityManager()->getRepository(Profile::class)->findOneBy(array('id' => $auth->getIdentity()));
         //$repo = $this->getEntityManager()->getRepos
-        echo "<pre>";
-        print_r($repo);
-        echo "<pre>";
-        die();
+        /*
         return array(
-            '$repo' => $repo
+            'link' => $link
         );
+        */
     }
 
 
