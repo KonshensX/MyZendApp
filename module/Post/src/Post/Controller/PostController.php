@@ -253,5 +253,18 @@ class PostController extends AbstractActionController {
         die('"fuck"');
     }
 
+    public function searchAction () {
+
+        $request = $this->getRequest()->getContent();
+
+        $postTitle = $this->params()->fromPost('search');
+
+        $repo = $this->getPostTable()->getPostByTitle(array('title' => $postTitle));
+        return array(
+            'posts' => $repo,
+            'title' => $postTitle
+        );
+    }
+
 
 }

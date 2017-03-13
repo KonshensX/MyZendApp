@@ -1,0 +1,60 @@
+<?php
+$this->headTitle("Search result for "  . $title);
+
+if (empty($posts)) {
+    ?>
+    <div class="alert alert-info">
+        <div class="container-fluid">
+            <div class="alert-icon">
+                <i class="material-icons">info_outline</i>
+            </div>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true"><i class="material-icons">clear</i></span>
+            </button>
+            <b>Info alert:</b> Opps, it looks like the title you entered doesn't match anything in our system
+        </div>
+    </div>
+<?php
+}
+?>
+
+<?php foreach ($posts as $post) : ?>
+    <div class="card" style="width: 300px; height overflow: hidden; margin-left: 10px;">
+        <?php
+        if ($post->cover) {
+            ?>
+            <img height="180" class="card-img-top" src="<?= $this->basepath('../data/uploads/covers/' . $post->cover) ?> " alt="<?= $post->title ?>">
+            <?php
+
+        } else {
+            ?>
+            <img height="180" class="card-img-top" src="<?= $this->basepath('/img/no-cover.png') ?>" alt="Card image cap">
+            <?php
+        }
+
+        ?>
+        <div class="card-block" style="padding: 10px;">
+            <h4 class="card-title"><?= $post->title ?></h4>
+            <p class="card-text"><?= $post->description ?>.</p>
+            <a href="<?= $this->url('post', array('action' => 'display', 'id' => $post->id)) ?>" class="btn btn-primary">More <i class="material-icons">more</i></a>
+        </div>
+    </div>
+<?php endforeach; ?>
+
+<?php
+/*
+// add at the end of the file after the table
+echo $this->paginationControl(
+// the paginator object
+    $this->paginator,
+    // the scrolling style
+    'sliding',
+    // the partial to use to render the control
+    'partial/paginator.phtml',
+    // the route to link to when a user clicks a control link
+    array(
+        'route' => 'post'
+    )
+);
+*/
+?>

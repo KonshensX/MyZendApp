@@ -30,6 +30,18 @@ class ProfileTable {
         return $row;
     }
 
+    public function getProfileBy($options)
+    {
+        $rowset = $this->tableGateway->select($options);
+        $result = [];
+        foreach ($rowset as $row) {
+            array_push($result, $row);
+        }
+
+        return $result;
+    }
+
+
     public function saveProfile(Profile $Profile)
     {
         $data = array(

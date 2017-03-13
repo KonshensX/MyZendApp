@@ -1,7 +1,9 @@
-<?php $auth = new \Zend\Authentication\AuthenticationService();
+<?php
+    $auth = new \Zend\Authentication\AuthenticationService();
+    $form->setAttribute('action', $this->url('post', array('action' => 'search')));
+    $form->setAttribute('class', 'navbar-form');
+    $form->prepare();
     echo $this->doctype();
-    var_dump($form);
-    die();
 ?>
 
 <html lang="en">
@@ -41,7 +43,7 @@
     </head>
     <body>
     <?php if ($auth->hasIdentity()) {?>
-        <nav class="navbar navbar-info">
+        <nav class="navbar navbar-primary">
             <div class="container">
                 <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
@@ -62,8 +64,29 @@
                             </a>
                         </li>
                         <li>
-                            <a href="<?= $this->url('profile', array('action' => 'display')) ?>" target="_blank"> Add Profile
+                            <a href="<?= $this->url('profile', array('action' => 'display')) ?>"> Add Profile
                             </a>
+                        </li>
+                    </ul>
+                    <div class="col-sm-6 col-md-6">
+                        <?= $this->form()->openTag($form) ?>
+                            <div class="input-group">
+                                <?= $this->formRow($form->get('search')) ?>
+                                <div class="input-group-btn">
+                                    <button class="btn btn-round btn-default" type="submit"><i class="material-icons">search</i></button>
+                                </div>
+                            </div>
+                        <?= $this->form()->closeTag(); ?>
+                    </div>
+                    
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="<?php $this->url('profile',array('action' => 'display', 'id' => $profile->id)) ?>">
+                                <i class="material-icons">face</i><strong><?= $profile->username ?></strong>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="<?= $this->url('zfcuser/logout') ?>"><i class="material-icons">redo</i>Logout</a>
                         </li>
                     </ul>
                 </div>

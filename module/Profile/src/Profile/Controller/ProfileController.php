@@ -6,6 +6,7 @@ use Profile\Form\ImageUploadForm;
 use Profile\Form\ProfileForm;
 use Profile\Entity\Profile;
 use Profile\Model\ProfileTable;
+use Zend\Authentication\AuthenticationService;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Helper\ViewModel;
 use Doctrine\ORM\EntityManager;
@@ -113,7 +114,13 @@ class ProfileController extends AbstractActionController {
     }
 
     public function testingAction () {
-        $repo = $this->getEntityManager()->getRepository(Profile::class)->findAll();
+        /**
+         * @var EntityManager
+         */
+        $auth = new AuthenticationService();
+        //$repo = $em->getRepository(Profile::class)->findAll();
+        $repo = $this->getEntityManager()->getRepository(Profile::class)->findOneBy(array('id' => $auth->getIdentity()));
+        //$repo = $this->getEntityManager()->getRepos
         echo "<pre>";
         print_r($repo);
         echo "<pre>";

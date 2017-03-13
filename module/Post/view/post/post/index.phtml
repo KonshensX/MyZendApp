@@ -7,12 +7,12 @@
             <?php
                 if ($post->cover) {
             ?>
-                <img class="card-img-top" src="<?= $this->basepath('../data/uploads/covers/' . $post->cover) ?> " alt="<?= $post->title ?>">
+                <img height="180px" class="card-img-top" src="<?= $this->basepath('../data/uploads/covers/' . $post->cover) ?> " alt="<?= $post->title ?>">
             <?php
 
                 } else {
             ?>
-                <img class="card-img-top" src="<?= $this->basepath('/img/no-cover.png') ?>" alt="Card image cap">
+                <img height="180px" class="card-img-top" src="<?= $this->basepath('/img/no-cover.png') ?>" alt="Card image cap">
             <?php
                 }
 

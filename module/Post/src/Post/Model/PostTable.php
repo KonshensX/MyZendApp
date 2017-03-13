@@ -58,6 +58,19 @@ class PostTable
         return $row;
     }
 
+    public function getPostByTitle($title) {
+
+        $rowset = $this->tableGateway->select($title);
+
+        $result = [];
+
+        foreach ($rowset as $row) {
+            array_push($result, $row);
+        }
+
+        return $result;
+    }
+
     public function savePost(Post $post)
     {
         $data = array(
