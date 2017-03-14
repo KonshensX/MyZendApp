@@ -59,7 +59,6 @@ return array(
         ),
         'aliases' => array(
             'translator' => 'MvcTranslator',
-
         ),
     ),
     'doctrine' => array(
@@ -67,11 +66,11 @@ return array(
             'application_entities' => array(
                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
                 'cache' => 'array',
-                'paths' => array(__DIR__ . '/../src/' . __NAMESPACE__ . '/Entity')
+                'paths' => array(__DIR__ . '/../src/Application/Entity')
             ),
             'orm_default' => array(
                 'drivers' => array(
-                    (__NAMESPACE__ . '\Entity') => 'application_entities',
+                    ('Application\Entity') => 'application_entities',
                 ),
             ),
         )

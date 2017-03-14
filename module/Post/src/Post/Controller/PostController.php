@@ -141,11 +141,7 @@ class PostController extends AbstractActionController {
 
     public function indexAction()
     {
-        $profile = $this->getEntityManager()->getRepository(Profile::class);
-        //$profile = new \Post\Entity\Post();
-        echo "<pre>";
-        var_dump($profile);
-        die();
+        
         $auth = new AuthenticationService();
         
         //get the paginator from the post table

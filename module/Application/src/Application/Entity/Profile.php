@@ -18,7 +18,7 @@ class Profile implements InputFilterAwareInterface {
 
     protected $inputFilter;
 
-    /**
+    /** 
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")

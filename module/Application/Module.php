@@ -10,6 +10,7 @@
 namespace Application;
 
 use Application\Form\SearchForm;
+use Doctrine\ORM\EntityManager;
 use Profile\Model\Profile;
 use Profile\Model\ProfileTable;
 use Zend\Authentication\AuthenticationService;
@@ -18,6 +19,7 @@ use Zend\Mvc\MvcEvent;
 
 class Module
 {
+    private $em;
     protected $profileTable;
     private $serviceManager;
 
@@ -33,20 +35,31 @@ class Module
 
     public function setFormToView ($event) {
         $auth = new AuthenticationService();
+        $profile = array();
 
         if ($auth->getIdentity()) {
-            $profile = $this->getProfileTable()->getProfile($auth->getIdentity());
+            $profile = $this->getEntityManager()->getRepository(\Application\Entity\Profile::class)
+                            ->findOneBy(array('id' => $auth->getIdentity()));
+            //$profile = $this->getProfileTable()->getProfile($auth->getIdentity());
         }
-        //var_dump(Form\SearchForm::class);
-        //die();
-        //$form = new SearchForm();
-        $profile = array();
+
+        $form = new SearchForm();
 
         $viewModel = $event->getViewModel();
         $viewModel->setVariables(array(
-            //'form' => $form,
+            'form' => $form,
             'profile' => $profile
         ));
+    }
+
+    /**
+     * @return EntityManager
+     */
+    public function getEntityManager () {
+        if (null == $this->em) {
+            $this->em = $this->serviceManager->get('doctrine.entitymanager.orm_default');
+        }
+        return $this->em;
     }
 
 
