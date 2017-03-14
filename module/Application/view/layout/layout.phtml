@@ -1,8 +1,8 @@
 <?php
     $auth = new \Zend\Authentication\AuthenticationService();
-    $form->setAttribute('action', $this->url('post', array('action' => 'search')));
-    $form->setAttribute('class', 'navbar-form');
-    $form->prepare();
+    //$form->setAttribute('action', $this->url('post', array('action' => 'search')));
+    //$form->setAttribute('class', 'navbar-form');
+    //$form->prepare();
     echo $this->doctype();
 ?>
 
@@ -65,6 +65,7 @@
                         </li>
                     </ul>
                     <div class="col-sm-6 col-md-6">
+                        <?php if ($form) { ?>
                         <?= $this->form()->openTag($form) ?>
                             <div class="input-group">
                                 <?= $this->formRow($form->get('search')) ?>
@@ -73,6 +74,7 @@
                                 </div>
                             </div>
                         <?= $this->form()->closeTag(); ?>
+                        <?php } ?>
                     </div>
                     
                     <ul class="nav navbar-nav">

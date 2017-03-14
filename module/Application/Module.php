@@ -32,13 +32,19 @@ class Module
     }
 
     public function setFormToView ($event) {
-
         $auth = new AuthenticationService();
-        $profile = $this->getProfileTable()->getProfile($auth->getIdentity());
-        $form = new SearchForm();
+
+        if ($auth->getIdentity()) {
+            $profile = $this->getProfileTable()->getProfile($auth->getIdentity());
+        }
+        //var_dump(Form\SearchForm::class);
+        //die();
+        //$form = new SearchForm();
+        $profile = array();
+
         $viewModel = $event->getViewModel();
         $viewModel->setVariables(array(
-            'form' => $form,
+            //'form' => $form,
             'profile' => $profile
         ));
     }

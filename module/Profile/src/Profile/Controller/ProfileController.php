@@ -2,9 +2,12 @@
 
 namespace Profile\Controller;
 
+use Application\Entity\Salam;
 use Imagine\Gd\Imagine;
 use Imagine\Image\Box;
 use Imagine\Image\Point;
+use Application\Entity\Post;
+use Post\Model\PostTable;
 use Profile\Form\ImageUploadForm;
 use Profile\Form\ProfileForm;
 use Profile\Entity\Profile;
@@ -15,7 +18,7 @@ use Zend\View\Helper\ViewModel;
 use Doctrine\ORM\EntityManager;
 
 class ProfileController extends AbstractActionController {
-
+    protected $postTable;
     protected $profileTable;
     /**
      * @var DoctrineORMEntityManager
@@ -31,6 +34,7 @@ class ProfileController extends AbstractActionController {
 
     public function indexAction()
     {
+        
         $repo = $this->getEntityManager()->getRepository('Profile\Entity\Profile')->findAll();
         //$repo = $this->getProfileTable()->fetchAll();
         //TODO
@@ -77,9 +81,12 @@ class ProfileController extends AbstractActionController {
         }
         //Need the id of the profile to get information from the database
         $profile = $this->getEntityManager()->getRepository(Profile::class)->findOneBy(array('id' => $id));
+        
+        $posts = $this->getPostTable()->getPostBy(array('owner' => $profile->username));
 
         return array(
-            'profile' => $profile
+            'profile' => $profile,
+            'posts' => $posts
         );
     }
 
@@ -181,14 +188,29 @@ class ProfileController extends AbstractActionController {
          * @var EntityManager
          */
         $auth = new AuthenticationService();
-        //$repo = $em->getRepository(Profile::class)->findAll();
-        $repo = $this->getEntityManager()->getRepository(Profile::class)->findOneBy(array('id' => $auth->getIdentity()));
-        //$repo = $this->getEntityManager()->getRepos
+        $profile = $this->getEntityManager()->getRepository(Profile::class)->findAll();
+        //$repo = $this->getEntityManager()->getRepository(Profile::class);
+        /*->findOneBy(array(
+            'id' => $auth->getIdentity()
+        ));
+        */
+
+        var_dump($profile);
+        die();
+
         /*
         return array(
             'link' => $link
         );
         */
+    }
+
+    public function getPostTable() {
+        if (!$this->postTable) {
+            $sm = $this->getServiceLocator();
+            $this->postTable = $sm->get(PostTable::class);
+        }
+        return $this->postTable;
     }
 
 

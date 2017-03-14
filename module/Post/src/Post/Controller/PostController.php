@@ -2,11 +2,13 @@
 
 namespace Post\Controller;
 
+use Profile\Entity\Profile;
 use Post\Form\CoverForm;
 use Post\Model\PostImageMapper;
 use Post\Model\PostTable;
 use Post\Model\Post;
 use Post\Form\PostForm;
+use Profile\Model\ProfileTable;
 use Zend\Authentication\AuthenticationService;
 use Zend\Db\Sql\Sql;
 use Zend\Mvc\Controller\AbstractActionController;
@@ -21,12 +23,24 @@ class PostController extends AbstractActionController {
     protected $adapter;
     protected $postTable;
     protected $mapper;
+    protected $profileTable;
+
+    /**
+     * @var DoctrineORMEntityManager
+     */
+    protected $em;
+
+    public function getEntityManager () {
+        if (null == $this->em) {
+            $this->em = $this->getServiceLocator()->get('doctrine.entitymanager.orm_default');
+        }
+        return $this->em;
+    }
 
     public function __construct()
     {
         //$this->mapper = $mapper;
     }
-
 
     public function displayAction () {
         $id = (int) $this->params()->fromRoute('id', 0);
@@ -35,7 +49,7 @@ class PostController extends AbstractActionController {
             return $this->redirect()->toRoute('post', array('action' => 'index'));
         }
         $post = $this->getPostTable()->getPostBy(array('id' => $id));
-        
+
         return array(
             'post' => $post[0]
         );
@@ -127,6 +141,11 @@ class PostController extends AbstractActionController {
 
     public function indexAction()
     {
+        $profile = $this->getEntityManager()->getRepository(Profile::class);
+        //$profile = new \Post\Entity\Post();
+        echo "<pre>";
+        var_dump($profile);
+        die();
         $auth = new AuthenticationService();
         
         //get the paginator from the post table
@@ -147,6 +166,10 @@ class PostController extends AbstractActionController {
     //try to crop the photo before inserting it
     //Talking about the cover
     public function addAction () {
+        $auth = new AuthenticationService();
+        if (!$auth->getIdentity()) {
+            return $this->redirect()->toRoute('post', array('action' => 'index'));
+        }
         $form = new PostForm();
 
         $request = $this->getRequest();
@@ -174,7 +197,11 @@ class PostController extends AbstractActionController {
                 $tempdate = new \DateTime("now");
                 $tempdate = $tempdate->format('Y-m-d H:i:s');
                 $data['date'] = $tempdate;
-                $data['owner'] = "Current user";
+                //Getting the current user username
+
+                $currentUser = $this->getProfileTable()->getProfile($auth->getIdentity());
+
+                $data['owner'] = $currentUser->username;
                 //$data['cover'] = null;
 
                 $postClass->exchangeArray($data);
@@ -202,7 +229,7 @@ class PostController extends AbstractActionController {
         //Post class
 
         $form = new PostForm();
-        $form->bind($post);
+        //$form->bind($post);
 
         $form->get('submit')->setAttribute('value', 'Edit');
 
@@ -213,7 +240,7 @@ class PostController extends AbstractActionController {
             die("This was reached!");
         }
 
-        return;
+        return array();
     }
 
     public function deleteAction () {
@@ -262,6 +289,15 @@ class PostController extends AbstractActionController {
             'posts' => $repo,
             'title' => $postTitle
         );
+    }
+
+    public function getProfileTable () {
+
+        if (!$this->profileTable) {
+            $sm = $this->getServiceLocator();
+            $this->profileTable = $sm->get(ProfileTable::class);
+        }
+        return $this->profileTable;
     }
 
 
