@@ -1,0 +1,21 @@
+<h1>The form goes here</h1>
+<?php
+    $this->headTitle("This is just a test page");
+    $form->prepare();
+?>
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <?php
+
+        $this->form()->openTag($form);
+
+        $this->formRow($form->get('category'));
+
+        $this->form()->closeTag();
+        ?>
+    </div>
+</div>
+
+
+

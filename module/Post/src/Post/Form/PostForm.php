@@ -2,6 +2,7 @@
 
 namespace Post\Form;
 
+use Application\Entity\Category;
 use Zend\Form\Element\File;
 use Zend\InputFilter;
 use Zend\Form\Element;
@@ -9,11 +10,29 @@ use Zend\Form\Form;
 
 
 class PostForm extends Form {
+    protected $em;
+    private $sm;
+    /**
+     * @return EntityManager
+     */
+    public function getEntityManager () {
+        if (null == $this->em) {
+            $this->em = $this->sm->get('doctrine.entitymanager.orm_default');
+        }
+        return $this->em;
+    }
 
-    public function __construct($name = null)
+    public function __construct($sm)
     {
         parent::__construct('post');
-
+        $this->sm = $sm;
+        $this->getEntityManager();
+        $categories = $this->getEntityManager()->getRepository(Category::class)->findAll();
+        $newCategories = [];
+        foreach ($categories as $category) {
+            $newCategories[$category->id] = $category->name;
+        }
+        
         $this->add(array(
             'name' => 'id',
             'type' => 'Hidden'
@@ -27,6 +46,17 @@ class PostForm extends Form {
             'attributes' => array(
                 'class' => 'form-control',
                 'required' => 'required'
+            )
+        ));
+
+        $this->add(array(
+            'name' => 'category_id',
+            'type' => 'Select',
+            'options' => array(
+                'options' => $newCategories
+            ),
+            'attributes' => array(
+                'class' => 'form-control',
             )
         ));
 
@@ -86,7 +116,7 @@ class PostForm extends Form {
             ->setAttribute('id', 'image-file')
             ->setAttribute('onChange', 'previewImage()')
             ->setAttribute('required', 'false');
-        $this->add($file);
+        //$this->add($file);
 
         //End of file input
 

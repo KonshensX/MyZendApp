@@ -43,7 +43,7 @@
     </head>
     <body>
     <?php if ($auth->hasIdentity()) {?>
-        <nav class="navbar navbar-primary">
+        <nav class="navbar navbar-info">
             <div class="container">
                 <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
@@ -79,11 +79,13 @@
                     
                     <ul class="nav navbar-nav">
                         <li>
+                            <a href="#">
                             <?php if (!$profile->image) { ?>
                                 <img height="30px" width="30px" class="img-responsive img-circle" src="<?= $this->basepath('../public/img/profilepic.png') ?>" alt="">
                             <?php } else { ?>
                                 <img height="30px" width="30px" class="img-responsive img-circle" src="<?= $this->basepath('../data/uploads/profile/' . $profile->image ) ?>" alt="">
                             <?php } ?>
+                            </a>
                         </li>
                         <li>
                             <a href="<?= $this->url('profile', array('action' => 'display', 'id' => $profile->id)) ?>">
@@ -127,13 +129,7 @@
             </div>
         </nav>
     <?php } ?>
-
-
-    <?php $this->partial('partial/search');  ?>
-        <?php
-            //This needs to be a search bar
-        ?>
-        <br><br>
+    <br><br>
     <div class="col-lg-9">
         <div class="main main-raised" style="margin-top: 0px;">
             <div class="container">

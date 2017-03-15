@@ -40,6 +40,7 @@ class Module
         if ($auth->getIdentity()) {
             $profile = $this->getEntityManager()->getRepository(\Application\Entity\Profile::class)
                             ->findOneBy(array('id' => $auth->getIdentity()));
+
             //$profile = $this->getProfileTable()->getProfile($auth->getIdentity());
         }
 

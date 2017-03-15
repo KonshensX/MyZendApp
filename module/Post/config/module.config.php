@@ -57,10 +57,15 @@ return array(
                 $posttable = $sm->get('Post\Model\PostTable');
                 $imagetable = $sm->get('Post\Model\ImageTable');
 
-                $mapper = new Post\Model\PostImageMapper($$posttable, $imagetable);
+                $mapper = new Post\Model\PostImageMapper($posttable, $imagetable);
 
                 return $mapper;
             },
+            'Post\Form\PostForm' => function ($sm) {
+                $form = new \Post\Form\PostForm($sm);
+                return $form;
+            }
+
         ),
     ),
 );

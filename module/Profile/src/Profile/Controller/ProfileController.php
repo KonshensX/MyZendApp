@@ -80,7 +80,7 @@ class ProfileController extends AbstractActionController {
             return $this->redirect()->toRoute('post', array('action' => 'index'));
         }
         //Need the id of the profile to get information from the database
-        $profile = $this->getEntityManager()->getRepository(Profile::class)->findOneBy(array('id' => $id));
+        $profile = $this->getEntityManager()->getRepository(\Application\Entity\Profile::class)->findOneBy(array('id' => $id));
         
         $posts = $this->getPostTable()->getPostBy(array('owner' => $profile->username));
 

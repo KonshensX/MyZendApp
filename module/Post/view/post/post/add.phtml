@@ -49,10 +49,15 @@
             </div>
         </div>
 
-
-        <div class="col-lg-12">
-            <img class="img-responsive img-rounded preview" src="" alt="">
+        <div class="col-lg-6">
+            <div class="form-group label-floating">
+                <label class="control-label">
+                    Category
+                </label>
+                <?= $this->formSelect($form->get('category_id')) ?>
+            </div>
         </div>
+
         <br><br>
         <div class="col-lg-12">
             <div class="form-group label-floating">
@@ -64,7 +69,7 @@
         </div>
 
 
-        <button class="btn btn-round btn-primary pull-right" type="submit"><i class="material-icons">add</i> Save</button>
+        <button class="btn btn-round btn-info btn-block pull-right" type="submit"><i class="material-icons">add</i> Save</button>
         <?= $this->form()->closeTag(); ?>
     </div>
 </div>

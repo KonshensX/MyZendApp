@@ -2,8 +2,10 @@
 
 namespace Application\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
 use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Class Post
@@ -14,10 +16,13 @@ class Post implements InputFilterAwareInterface {
 
     protected $inputFilter;
 
-    public function __construct()
-    {
-        die("die nigga");
-    }
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\ManyToOne(targetEntity="Category", inversedBy="posts")
+     * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
+     **/
+    private $category;
 
     /**
      * @ORM\Id
@@ -34,6 +39,50 @@ class Post implements InputFilterAwareInterface {
      * @ORM\Column(type="string")
      */
     public $description;
+
+    /**
+     * @ORM\Column(type="date")
+     */
+    public $date;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    public $owner;
+
+    /**
+     * @ORM\Column(type="decimal")
+     */
+    public $price;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    public $phone;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    public $email;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    public $cover;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    public $views;
+
+
+
+
+
+
+
+
+
 
     /**
      * Magic getter to expose protected properties.
@@ -75,8 +124,13 @@ class Post implements InputFilterAwareInterface {
     public function exchangeArray ($data = array())
     {
         $this->id = $data['id'];
-        $this->username = $data['title'];
-        $this->fullname = $data['description'];
+        $this->title = $data['title'];
+        $this->description = $data['description'];
+        $this->date = $data['date'];
+        $this->phone = $data['phone'];
+        $this->price = $data['price'];
+        $this->email = $data['email'];
+        $this->owner = $data['owner'];
     }
 
     /**
@@ -150,5 +204,21 @@ class Post implements InputFilterAwareInterface {
         }
 
         return $this->inputFilter;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
+    /**
+     * @param mixed $category
+     */
+    public function setCategory($category)
+    {
+        $this->category = $category;
     }
 }

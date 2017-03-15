@@ -2,6 +2,8 @@
 
 namespace Post\Controller;
 
+use Application\Entity\Category;
+use Doctrine\ORM\EntityManager;
 use Profile\Entity\Profile;
 use Post\Form\CoverForm;
 use Post\Model\PostImageMapper;
@@ -30,6 +32,9 @@ class PostController extends AbstractActionController {
      */
     protected $em;
 
+    /**
+     * @return EntityManager
+     */
     public function getEntityManager () {
         if (null == $this->em) {
             $this->em = $this->getServiceLocator()->get('doctrine.entitymanager.orm_default');
@@ -141,7 +146,7 @@ class PostController extends AbstractActionController {
 
     public function indexAction()
     {
-        
+
         $auth = new AuthenticationService();
         
         //get the paginator from the post table
@@ -166,13 +171,11 @@ class PostController extends AbstractActionController {
         if (!$auth->getIdentity()) {
             return $this->redirect()->toRoute('post', array('action' => 'index'));
         }
-        $form = new PostForm();
+        $form = new PostForm($this->getServiceLocator());
 
         $request = $this->getRequest();
 
         if ($request->isPost()) {
-
-            $postClass = new Post();
             $post = array_merge_recursive(
                 $request->getPost()->toArray()
             );
@@ -190,19 +193,35 @@ class PostController extends AbstractActionController {
                 //get the file name to store in the database
                 //$filename = (explode('\\', $data['image-file']['tmp_name'])[1]);
                 //$data['cover'] = $filename;
-                $tempdate = new \DateTime("now");
-                $tempdate = $tempdate->format('Y-m-d H:i:s');
-                $data['date'] = $tempdate;
+                $data['date'] = new \DateTime("now");
+
+                //Getting the user using doctrine.
+                $currentUser = $this->getEntityManager()->getRepository(\Application\Entity\Profile::class)->findOneBy(array('id' => $auth->getIdentity()));
+                $data['owner'] = $currentUser->username;
+                //Set the data from the request to the post Object
+                $postObject = new \Application\Entity\Post();
+                $postObject->exchangeArray($data);
+                $category = $this->getEntityManager()->getRepository(Category::class)->findOneBy(array('id' => $data['category_id']));
+                $postObject->setCategory($category);
+
                 //Getting the current user username
 
-                $currentUser = $this->getProfileTable()->getProfile($auth->getIdentity());
+                //Getting the user using Zend_Db
+                //$currentUser = $this->getProfileTable()->getProfile($auth->getIdentity());
 
-                $data['owner'] = $currentUser->username;
+
                 //$data['cover'] = null;
 
-                $postClass->exchangeArray($data);
+                //Inserting to the database using gateway and Zend stuff
+                //$postClass->exchangeArray($data);
 
-                $myID = $this->getPostTable()->savePost($postClass);
+
+                //Saving the post object to the database using Zend
+                //$myID = $this->getPostTable()->savePost($postClass);
+
+                //Saving to the database using doctrine .
+                $this->getEntityManager()->persist($postObject);
+                $this->getEntityManager()->flush();
 
                 //After adding the post redirect to the cover action to crop and save the cover, include the id of the post
                 return $this->redirect()->toRoute('post', array('action' => 'cover', 'id' => $myID));
@@ -211,6 +230,19 @@ class PostController extends AbstractActionController {
 
         return array(
             'form' => $form
+        );
+    }
+
+    //This is a testing action using doctrine
+    public function newAction () {
+
+        $form = $this->getServiceLocator()->get(PostForm::class);
+        echo "<pre>";
+        var_dump($form);
+        die();
+
+        return array(
+            'form' => $form,
         );
     }
 

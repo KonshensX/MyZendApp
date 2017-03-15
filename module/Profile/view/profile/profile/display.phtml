@@ -5,9 +5,9 @@
 <div class="section section-landing">
     <div class="avatar">
         <?php if ($profile->image) { ?>
-            <img class="img-responsive img-rounded img-raised center-block" src="<?= $this->basepath('../data/uploads/profile/' . $profile->image) ?>">
+            <img height="200px" width="200px" class="img-responsive img-circle img-raised center-block" src="<?= $this->basepath('../data/uploads/profile/' . $profile->image) ?>">
         <?php } else { ?>
-            <img class="img-responsive img-rounded img-raised center-block" src="<?= $this->basepath('/img/profilepic.png') ?>">
+            <img height="200px" width="200" class="img-responsive img-circle img-raised center-block" src="<?= $this->basepath('/img/profilepic.png') ?>">
         <?php } ?>
     </div>
     <h2 class="text-center"><?= $profile->firstname . ' ' . $profile->lastname . '<br> A.K.A <br>  ' . $profile->username ?></h2>
@@ -15,51 +15,55 @@
     <p class="text-center description"><?= $profile->about ?></p>
     <hr>
 
-    <div class="section section-landing">
-        <h5 class="text-center text-uppercase"><strong><?= $profile->username ?></strong> influence</h5>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h5 class="text-center text-uppercase"><strong><?= $profile->username ?></strong> influence</h5>
+        </div>
+        <div class="panel-body">
+            <div class="profile-tabs">
+                <div class="nav-align-center">
+                    <ul class="nav nav-pills">
+                        <li class="active">
+                            <a class="" data-toggle="tab" href="#posts">Posts</a>
+                        </li>
+                        <li>
+                            <a class="" data-toggle="tab" href="#wow">Wow</a>
+                        </li>
+                    </ul>
 
-        <div class="profile-tabs">
-            <div class="nav-align-center">
-                <ul class="nav nav-pills">
-                    <li class="active">
-                        <a class="" data-toggle="tab" href="#posts">Posts</a>
-                    </li>
-                    <li>
-                        <a class="" data-toggle="tab" href="#wow">Wow</a>
-                    </li>
-                </ul>
-
-                <div class="tab-content">
-                    <div class="tab-pane active" id="posts">
-                        <p>Posts by this user on the website.</p>
-                        <hr>
-                        <?php foreach ($posts as $post) { ?>
-                        <div class="row">
-                            <div class="alert alert-info">
-                                <div class="container-fluid">
-                                    <div class="col-lg-3">
-                                        <?php if ($post->cover) { ?>
-                                            <img width="70" height="70" class="img-responsive img-circle" src="<?= $this->basepath('../data/uploads/covers/' . $post->cover  ) ?>">
-                                        <?php } else { ?>
-                                            <img width="70" height="70" class="img-responsive img-circle" src="<?= $this->basepath('../public/img/profilepic.png') ?>">
-                                        <?php } ?>
-                                    </div>
-                                    <div class="col-lg-9">
-                                        <b>Post title: <?= $post->title ?> </b>
-                                        <a class="btn btn-round btn-danger profilexcpntroerpull-right" href="<?= $this->url('post', array('action' => 'display', 'id' => $post->id)) ?>">See</a>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="posts">
+                            <?php if (!$posts) { ?>
+                                <h3 class="text-center text-info">Opps, this user has not posted anything yet!</h3>
+                            <?php } else { ?>
+                            <?php foreach ($posts as $post) { ?>
+                                <div class="row">
+                                    <div class="alert alert-info">
+                                        <div class="container-fluid">
+                                            <div class="col-lg-3">
+                                                <?php if ($post->cover) { ?>
+                                                    <img width="70" height="70" class="img-responsive img-circle" src="<?= $this->basepath('../data/uploads/covers/' . $post->cover  ) ?>">
+                                                <?php } else { ?>
+                                                    <img width="70" height="70" class="img-responsive img-circle" src="<?= $this->basepath('../public/img/profilepic.png') ?>">
+                                                <?php } ?>
+                                            </div>
+                                            <div class="col-lg-9">
+                                                <b>Post title: <?= $post->title ?> </b>
+                                                <a class="btn btn-round btn-danger profilexcpntroerpull-right" href="<?= $this->url('post', array('action' => 'display', 'id' => $post->id)) ?>">See</a>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            <?php }} ?>
                         </div>
-                        <?php } ?>
-                        <hr>
-                    </div>
-                    <div class="tab-pane" id="wow">
-                        <p>another Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum neque odit omnis reprehenderit sapiente tempora tenetur? Accusamus at autem, hic iste itaque labore nemo nesciunt, rem, saepe sit vero voluptatibus!</p>
+                        <div class="tab-pane" id="wow">
+                            <p>another Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum neque odit omnis reprehenderit sapiente tempora tenetur? Accusamus at autem, hic iste itaque labore nemo nesciunt, rem, saepe sit vero voluptatibus!</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+
     </div>
 </div>
 </div>
