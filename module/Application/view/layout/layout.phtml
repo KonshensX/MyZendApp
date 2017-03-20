@@ -1,8 +1,9 @@
 <?php
     $auth = new \Zend\Authentication\AuthenticationService();
-    //$form->setAttribute('action', $this->url('post', array('action' => 'search')));
-    //$form->setAttribute('class', 'navbar-form');
-    //$form->prepare();
+    $form->setAttribute('action', $this->url('post', array('action' => 'search')));
+    $form->setAttribute('class', 'navbar-form');
+    $form->setAttribute('style', 'margin-top: 8px !important;');
+    $form->prepare();
     echo $this->doctype();
 ?>
 
@@ -22,7 +23,7 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
         <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))
                         ->prependStylesheet($this->basePath() . '/css/font-awesome.min.css')
-                        ->prependStylesheet($this->basePath() . '/css/font-awesome.css')
+                        //->prependStylesheet($this->basePath() . '/css/font-awesome.css')
                         ->prependStylesheet($this->basePath() . '/css/bootstrap.min.css')
             //->prependStylesheet($this->basePath() . '/css/demo.css')
             ->prependStylesheet($this->basePath() . '/css/cropper.css')
@@ -58,42 +59,40 @@
 
                 <div class="collapse navbar-collapse" id="navigation-example">
                     <ul class="nav navbar-nav">
-
                         <li>
-                            <a href="<?= $this->url('post', array('action' => 'add')) ?>"> Add Post
+                            <a href="<?= $this->url('post', array('action' => 'add')) ?>"><i class="fa fa-plus-square"></i> Add Post
                             </a>
                         </li>
                     </ul>
-                    <div class="col-sm-6 col-md-6">
+                    <div class="col-sm-4 col-md-4">
                         <?php if ($form) { ?>
                         <?= $this->form()->openTag($form) ?>
                             <div class="input-group">
                                 <?= $this->formRow($form->get('search')) ?>
                                 <div class="input-group-btn">
-                                    <button class="btn btn-round btn-default" type="submit"><i class="material-icons">search</i></button>
+                                    <button class="btn btn-info btn-just-icon" type="submit"><i class="fa fa-search-plus"></i></button>
                                 </div>
                             </div>
                         <?= $this->form()->closeTag(); ?>
                         <?php } ?>
                     </div>
-                    
-                    <ul class="nav navbar-nav">
-                        <li>
-                            <a href="#">
-                            <?php if (!$profile->image) { ?>
-                                <img height="30px" width="30px" class="img-responsive img-circle" src="<?= $this->basepath('../public/img/profilepic.png') ?>" alt="">
-                            <?php } else { ?>
-                                <img height="30px" width="30px" class="img-responsive img-circle" src="<?= $this->basepath('../data/uploads/profile/' . $profile->image ) ?>" alt="">
-                            <?php } ?>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="<?= $this->url('profile', array('action' => 'display', 'id' => $profile->id)) ?>">
-                                <i class="material-icons">face</i><strong><?= $profile->username ?></strong>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="<?= $this->url('zfcuser/logout') ?>"><i class="material-icons">redo</i>Logout</a>
+
+                    <ul class="nav navbar-nav navbar-right pull-right">
+                        <span><?php $profile->username ?></span>
+                        <li class="dropdown">
+                            <a href="" class="dropdown-toggle profile" data-toggle="dropdown" aria-expanded="true">
+                                <?php if ($profile->image) { ?>
+                                    <img height="30" width="30" src="<?= $this->basepath('../data/uploads/profile/' . $profile->image); ?>" alt="user-img" class="img-circle"> </a>
+                                <?php } else { ?>
+                                    <img height="30" width="30" src="<?= $this->basepath('../public/img/profilepic.png'); ?>" alt="user-img" class="img-circle"> </a>
+                                <?php } ?>
+                            <ul class="dropdown-menu">
+                                <li class="divider"></li>
+                                <li><a href="<?= $this->url('profile', array('action' => 'display', 'id' => $profile->id)) ?>"><i class="fa fa-user"></i> Profile</a></li>
+                                <li><a href="<?= $this->url('profile', array('action' => 'edit', 'id' => $profile->id)) ?>"><i class="fa fa-cogs"></i> Settings</a></li>
+                                <li><a href="<?= $this->url('zfcuser/logout') ?>"><i class="fa fa-sign-out"></i> Logout</a></li>
+                                <li class="divider"></li>
+                            </ul>
                         </li>
                     </ul>
                 </div>
@@ -117,11 +116,11 @@
                     <ul class="nav navbar-nav pull-right">
 
                         <li>
-                            <a href="<?php $this->url('zfcuser/login') ?>"><i class="material-icons">input</i> LOGIN
+                            <a href="<?= $this->url('zfcuser/login') ?>"><i class="fa fa-sign-in"></i> LOGIN
                             </a>
                         </li>
                         <li>
-                            <a href="<?= $this->url('zfcuser/register') ?>" ><i class="material-icons">open_in_browser</i> REGISTER
+                            <a href="<?= $this->url('zfcuser/register') ?>" ><i class="fa fa-sign-out"></i> REGISTER
                             </a>
                         </li>
                     </ul>
@@ -130,10 +129,10 @@
         </nav>
     <?php } ?>
     <br><br>
-    <div class="col-lg-9">
+    <div class="col-lg-9" >
         <div class="main main-raised" style="margin-top: 0px;">
             <div class="container">
-                <div class="col-lg-9">
+                <div class="col-lg-9" >
                     <?php echo $this->content; ?>
                 </div>
             </div>
@@ -141,7 +140,14 @@
     </div>
 
     <div class="col-lg-3">
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab, ad consequatur cum cumque deserunt dolorem eaque eligendi facere impedit incidunt nihil odit officia qui quia quisquam, ratione unde? Incidunt, quibusdam?</p>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <span class="text-center">Recommended</span>
+            </div>
+            <div class="panel-body">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab, ad consequatur cum cumque deserunt dolorem eaque eligendi facere impedit incidunt nihil odit officia qui quia quisquam, ratione unde? Incidunt, quibusdam?</p>
+            </div>
+        </div>
     </div>
     <hr>
         <div class="clearfix"></div>

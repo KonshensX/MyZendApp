@@ -87,11 +87,13 @@ class ProfileForm extends Form {
                 'class' => 'form-control',
             )
         ));
+        /*
         $file = new File('image-file');
         $file->setLabel('Avatar')->setAttribute('id', 'image-file')->setAttribute('onChange', 'previewImage()');
         $this->add($file);
 
         $this->addInputFilter();
+        */
     }
 
     public function addInputFilter()

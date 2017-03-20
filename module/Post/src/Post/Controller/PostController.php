@@ -3,21 +3,20 @@
 namespace Post\Controller;
 
 use Application\Entity\Category;
+use Application\Entity\Post;
 use Doctrine\ORM\EntityManager;
-use Profile\Entity\Profile;
-use Post\Form\CoverForm;
-use Post\Model\PostImageMapper;
 use Post\Model\PostTable;
-use Post\Model\Post;
+use Post\Form\CoverForm;
 use Post\Form\PostForm;
 use Profile\Model\ProfileTable;
+use Application\Entity\Profile;
 use Zend\Authentication\AuthenticationService;
 use Zend\Db\Sql\Sql;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
 use Imagine\Gd\Imagine;
-use Imagine\Image\Box;
 use Imagine\Image\Point;
+use Imagine\Image\Box;
 use Imagine\Image\ImageInterface;
 
 class PostController extends AbstractActionController {
@@ -67,7 +66,7 @@ class PostController extends AbstractActionController {
         if ($request->isXMLHttpRequest()) {
             $id = $this->params()->fromPost('post_id');
         }
-        
+
         if (!$id) {
             $this->redirect()->toRoute('post', array('action' => 'index'));
         }
@@ -107,7 +106,8 @@ class PostController extends AbstractActionController {
                     $image = $imagine->open($tmp_file);
                     $temp = explode('.', $filename);
 
-                    $filename = $temp[0] . $temp[1] . '.' . $temp[2];
+                    $filename = $temp[0] . '.' . $temp[1];
+                    var_dump($filename);
                     $image
                         ->crop(new Point($x, $y), new Box($width, $height))
                         ->save(getcwd() . '/data/uploads/covers/' . $filename);
@@ -148,10 +148,10 @@ class PostController extends AbstractActionController {
     {
 
         $auth = new AuthenticationService();
-        
+
         //get the paginator from the post table
         $paginator = $this->getPostTable()->fetchAll(true);
-        
+
         //set the current page tp what has been passed in query string, or to 1 if none set
         $paginator->setCurrentPageNumber((int) $this->params()->fromQuery('page', 1));
         //set the number of items per page to 10
@@ -224,7 +224,7 @@ class PostController extends AbstractActionController {
                 $this->getEntityManager()->flush();
 
                 //After adding the post redirect to the cover action to crop and save the cover, include the id of the post
-                return $this->redirect()->toRoute('post', array('action' => 'cover', 'id' => $myID));
+                return $this->redirect()->toRoute('post', array('action' => 'cover', 'id' => $postObject->id));
             }
         }
 
@@ -248,6 +248,7 @@ class PostController extends AbstractActionController {
 
     public function editAction () {
         //TODO
+        $auth = new AuthenticationService();
         $id = (int) $this->params()->fromRoute('id', 0);
         if (!$id) {
             return $this->redirect()->toRoute('post', array(
@@ -255,20 +256,38 @@ class PostController extends AbstractActionController {
             ));
         }
         //Post class
+        /**
+         * @var Post
+         */
+        $post = $this->getEntityManager()->getRepository(Post::class)->findOneBy(['id' => $id]);
 
-        $form = new PostForm();
-        //$form->bind($post);
+        $form = new PostForm($this->getServiceLocator());
 
-        $form->get('submit')->setAttribute('value', 'Edit');
+        //I need to update the category dropdown with the id
+        //It's not being binded with the correct data since the post object has a Category type instead of the integer ID
+        $form->bind($post);
 
         $request = $this->getRequest();
-
+        /**
+         * @var Profile
+         */
+        $user = $this->getEntityManager()->getRepository(Profile::class)->findOneBy(['id' => $auth->getIdentity()]);
         if ($request->isPost()) {
-            var_dump($form->getData());
-            die("This was reached!");
+            $data = $request->getPost()->toArray();
+            $data['owner'] = $user->username;
+
+            $post->exchangeArray($data);
+            $this->getEntityManager()->persist($post);
+            //Not really sure if the flush is needed when updating an entity
+            $this->getEntityManager()->flush();
+
+            return $this->redirect()->toRoute('post', array('action' => 'display', 'id' => $post->id));
+
         }
 
-        return array();
+        return array(
+          'form' => $form
+        );
     }
 
     public function deleteAction () {
@@ -300,10 +319,7 @@ class PostController extends AbstractActionController {
     }
 
     public function testingAction() {
-        //$repo = $this->getEntityManager()
-        //$repo = $this->mapper->findAll();
-        //var_dump($repo);
-        die('"fuck"');
+        return array();
     }
 
     public function searchAction () {

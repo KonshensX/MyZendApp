@@ -3,21 +3,20 @@ $this->headTitle("Search result for "  . $title);
 
 if (empty($posts)) {
     ?>
+
     <div class="alert alert-info">
         <div class="container-fluid">
-            <div class="alert-icon">
-                <i class="material-icons">info_outline</i>
-            </div>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true"><i class="material-icons">clear</i></span>
+                <span aria-hidden="true"><i class="fa fa-windows"></i></span>
             </button>
-            <b>Info alert:</b> Opps, it looks like the title you entered doesn't match anything in our system
+            <b class="fa fa-info-circle"></b> Opps, it looks like the title you entered doesn't match anything in our system
         </div>
     </div>
 <?php
 }
 ?>
-
+<br>
+<h3 class="text-info">Search result for: <?= $title ?>  <?= count($posts) ?></h3>
 <?php foreach ($posts as $post) : ?>
     <div class="card" style="width: 300px; height overflow: hidden; margin-left: 10px;">
         <?php
@@ -36,7 +35,7 @@ if (empty($posts)) {
         <div class="card-block" style="padding: 10px;">
             <h4 class="card-title"><?= $post->title ?></h4>
             <p class="card-text"><?= $post->description ?>.</p>
-            <a href="<?= $this->url('post', array('action' => 'display', 'id' => $post->id)) ?>" class="btn btn-primary">More <i class="material-icons">more</i></a>
+            <a href="<?= $this->url('post', array('action' => 'display', 'id' => $post->id)) ?>" class="btn btn-primary"><i class="fa fa-bars"></i> More</a>
         </div>
     </div>
 <?php endforeach; ?>
@@ -58,3 +57,5 @@ echo $this->paginationControl(
 );
 */
 ?>
+
+<br><br>

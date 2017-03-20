@@ -18,7 +18,7 @@ class Profile implements InputFilterAwareInterface {
 
     protected $inputFilter;
 
-    /** 
+    /**
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -26,42 +26,42 @@ class Profile implements InputFilterAwareInterface {
     protected $id;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     protected $username;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     protected $firstname;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     protected $lastname;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     protected $mobile;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     protected $interests;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     protected $occupation;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     protected $about;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     protected $image;
 
@@ -106,7 +106,12 @@ class Profile implements InputFilterAwareInterface {
     {
         $this->id = $data['id'];
         $this->username = $data['username'];
-        $this->fullname = $data['fullname'];
+        $this->firstname = $data['firstname'];
+        $this->lastname = $data['lastname'];
+        $this->mobile = $data['mobile'];
+        $this->interests = $data['interests'];
+        $this->occupation = $data['occupation'];
+        $this->about = $data['about'];
     }
 
     public function setInputFilter(InputFilterInterface $inputFilter)
@@ -148,6 +153,101 @@ class Profile implements InputFilterAwareInterface {
 
             $inputFilter->add(array(
                 'name'     => 'firstname',
+                'required' => true,
+                'filters'  => array(
+                    array('name' => 'StripTags'),
+                    array('name' => 'StringTrim'),
+                ),
+                'validators' => array(
+                    array(
+                        'name'    => 'StringLength',
+                        'options' => array(
+                            'encoding' => 'UTF-8',
+                            'min'      => 1,
+                            'max'      => 100,
+                        ),
+                    ),
+                ),
+            ));
+
+            $inputFilter->add(array(
+                'name'     => 'lastname',
+                'required' => true,
+                'filters'  => array(
+                    array('name' => 'StripTags'),
+                    array('name' => 'StringTrim'),
+                ),
+                'validators' => array(
+                    array(
+                        'name'    => 'StringLength',
+                        'options' => array(
+                            'encoding' => 'UTF-8',
+                            'min'      => 1,
+                            'max'      => 100,
+                        ),
+                    ),
+                ),
+            ));
+
+            $inputFilter->add(array(
+                'name'     => 'mobile',
+                'required' => true,
+                'filters'  => array(
+                    array('name' => 'StripTags'),
+                    array('name' => 'StringTrim'),
+                ),
+                'validators' => array(
+                    array(
+                        'name'    => 'StringLength',
+                        'options' => array(
+                            'encoding' => 'UTF-8',
+                            'min'      => 1,
+                            'max'      => 100,
+                        ),
+                    ),
+                ),
+            ));
+
+            $inputFilter->add(array(
+                'name'     => 'interests',
+                'required' => true,
+                'filters'  => array(
+                    array('name' => 'StripTags'),
+                    array('name' => 'StringTrim'),
+                ),
+                'validators' => array(
+                    array(
+                        'name'    => 'StringLength',
+                        'options' => array(
+                            'encoding' => 'UTF-8',
+                            'min'      => 1,
+                            'max'      => 100,
+                        ),
+                    ),
+                ),
+            ));
+
+            $inputFilter->add(array(
+                'name'     => 'occupation',
+                'required' => true,
+                'filters'  => array(
+                    array('name' => 'StripTags'),
+                    array('name' => 'StringTrim'),
+                ),
+                'validators' => array(
+                    array(
+                        'name'    => 'StringLength',
+                        'options' => array(
+                            'encoding' => 'UTF-8',
+                            'min'      => 1,
+                            'max'      => 100,
+                        ),
+                    ),
+                ),
+            ));
+
+            $inputFilter->add(array(
+                'name'     => 'about',
                 'required' => true,
                 'filters'  => array(
                     array('name' => 'StripTags'),

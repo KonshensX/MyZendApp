@@ -17,16 +17,16 @@ class CoverForm extends Form {
             ->setAttribute('id', 'image-input')
             ->setAttribute('onChange', 'previewImage()');
         $this->add($file);
-        //$this->addInputFilter();
+        $this->addInputFilter();
     }
-    /*
+
     public function addInputFilter()
     {
         $inputFilter = new InputFilter\InputFilter();
 
         // File Input
         $fileInput = new InputFilter\FileInput('cover-file');
-        $fileInput->setRequired(true);
+        $fileInput->setRequired(false);
 
         // You only need to define validators and filters
         // as if only one file was being uploaded. All files
@@ -40,16 +40,16 @@ class CoverForm extends Form {
         // All files will be renamed, i.e.:
         //   ./data/tmpuploads/avatar_4b3403665fea6.png,
         //   ./data/tmpuploads/avatar_5c45147660fb7.png
-        $fileInput->getFilterChain()->attachByName(
+        /*$fileInput->getFilterChain()->attachByName(
             'filerenameupload',
             array(
                 'target'    => './data/uploads/posts/avatar.png',
                 'randomize' => true,
             )
-        );
+        );*/
         $inputFilter->add($fileInput);
 
         $this->setInputFilter($inputFilter);
-    }*/
+    }
     
 }

@@ -14,7 +14,7 @@ class SearchForm extends Form {
             'name' => 'search',
             'type' => 'Text',
             'attributes' => array(
-                'placeholder' => 'Enter search item here',
+                'placeholder' => 'Search...',
                 'class' => 'form-control'
             )
         ));

@@ -37,23 +37,23 @@
                                 <h3 class="text-center text-info">Opps, this user has not posted anything yet!</h3>
                             <?php } else { ?>
                             <?php foreach ($posts as $post) { ?>
-                                <div class="row">
-                                    <div class="alert alert-info">
-                                        <div class="container-fluid">
-                                            <div class="col-lg-3">
-                                                <?php if ($post->cover) { ?>
-                                                    <img width="70" height="70" class="img-responsive img-circle" src="<?= $this->basepath('../data/uploads/covers/' . $post->cover  ) ?>">
-                                                <?php } else { ?>
-                                                    <img width="70" height="70" class="img-responsive img-circle" src="<?= $this->basepath('../public/img/profilepic.png') ?>">
-                                                <?php } ?>
-                                            </div>
-                                            <div class="col-lg-9">
-                                                <b>Post title: <?= $post->title ?> </b>
-                                                <a class="btn btn-round btn-danger profilexcpntroerpull-right" href="<?= $this->url('post', array('action' => 'display', 'id' => $post->id)) ?>">See</a>
-                                            </div>
-                                        </div>
+                              <div class="col-lg-4">
+                                <div class="panel panel-info">
+                                    <div class="panel-heading" style="color: white">
+                                      <strong><?= $post->title ?></strong>
+                                    </div>
+                                    <div class="panel-body">
+                                      <img class="img-responsive" width="300px" height="180px" src="<?= $this->basepath('../data/uploads/covers/' . $post->cover) ?>" alt="">
+                                    </div>
+                                    <div class="panel-footer">
+                                      <div class="btn-group">
+                                        <a href="<?= $this->url('post', array('action' => 'edit', 'id' => $post->id )) ?>" class="btn btn-round btn-info">Edit</a>
+                                        <a href="<?= $this->url('post', array('action' => 'delete', 'id' => $post->id)) ?>" class="btn btn-round btn-danger">Delete</a>
+                                      </div>
+
                                     </div>
                                 </div>
+                              </div>
                             <?php }} ?>
                         </div>
                         <div class="tab-pane" id="wow">

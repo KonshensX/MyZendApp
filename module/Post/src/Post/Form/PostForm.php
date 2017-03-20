@@ -32,7 +32,7 @@ class PostForm extends Form {
         foreach ($categories as $category) {
             $newCategories[$category->id] = $category->name;
         }
-        
+
         $this->add(array(
             'name' => 'id',
             'type' => 'Hidden'

@@ -1,7 +1,7 @@
 <?php
     $this->headTitle("Index page man");
 ?>
-
+<br><br>
     <?php foreach ($this->paginator as $post) : ?>
         <div class="card" style="width: 300px; overflow: hidden; margin-left: 10px;">
             <?php
@@ -20,7 +20,7 @@
             <div class="card-block" style="padding: 10px;">
                 <h4 class="card-title"><?= $post->title ?></h4>
                 <p class="card-text"><?= $post->description ?>.</p>
-                <a href="<?= $this->url('post', array('action' => 'display', 'id' => $post->id)) ?>" class="btn btn-primary">More <i class="material-icons">more</i></a>
+                <a href="<?= $this->url('post', array('action' => 'display', 'id' => $post->id)) ?>" class="btn btn-primary"><i class="fa fa-bars"></i> More</a>
             </div>
         </div>
     <?php endforeach; ?>

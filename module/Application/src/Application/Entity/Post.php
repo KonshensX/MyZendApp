@@ -3,6 +3,7 @@
 namespace Application\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Zend\InputFilter\InputFilter;
 use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -76,14 +77,6 @@ class Post implements InputFilterAwareInterface {
     public $views;
 
 
-
-
-
-
-
-
-
-
     /**
      * Magic getter to expose protected properties.
      *
@@ -126,10 +119,11 @@ class Post implements InputFilterAwareInterface {
         $this->id = $data['id'];
         $this->title = $data['title'];
         $this->description = $data['description'];
-        $this->date = $data['date'];
+        $this->date = new \DateTime("now");
         $this->phone = $data['phone'];
         $this->price = $data['price'];
         $this->email = $data['email'];
+        //This is causing some problems because the array above is kinda ruined
         $this->owner = $data['owner'];
     }
 
@@ -200,6 +194,100 @@ class Post implements InputFilterAwareInterface {
                 ),
             ));
 
+            $inputFilter->add(array(
+                'name'     => 'date',
+                'required' => true,
+                'filters'  => array(
+                    array('name' => 'StripTags'),
+                    array('name' => 'StringTrim'),
+                ),
+                'validators' => array(
+                    array(
+                        'name'    => 'StringLength',
+                        'options' => array(
+                            'encoding' => 'UTF-8',
+                            'min'      => 1,
+                            'max'      => 100,
+                        ),
+                    ),
+                ),
+            ));
+
+            $inputFilter->add(array(
+                'name'     => 'owner',
+                'required' => true,
+                'filters'  => array(
+                    array('name' => 'StripTags'),
+                    array('name' => 'StringTrim'),
+                ),
+                'validators' => array(
+                    array(
+                        'name'    => 'StringLength',
+                        'options' => array(
+                            'encoding' => 'UTF-8',
+                            'min'      => 1,
+                            'max'      => 100,
+                        ),
+                    ),
+                ),
+            ));
+
+            $inputFilter->add(array(
+                'name'     => 'price',
+                'required' => true,
+                'filters'  => array(
+                    array('name' => 'StripTags'),
+                    array('name' => 'StringTrim'),
+                ),
+                'validators' => array(
+                    array(
+                        'name'    => 'StringLength',
+                        'options' => array(
+                            'encoding' => 'UTF-8',
+                            'min'      => 1,
+                            'max'      => 100,
+                        ),
+                    ),
+                ),
+            ));
+
+            $inputFilter->add(array(
+                'name'     => 'phone',
+                'required' => true,
+                'filters'  => array(
+                    array('name' => 'StripTags'),
+                    array('name' => 'StringTrim'),
+                ),
+                'validators' => array(
+                    array(
+                        'name'    => 'StringLength',
+                        'options' => array(
+                            'encoding' => 'UTF-8',
+                            'min'      => 1,
+                            'max'      => 100,
+                        ),
+                    ),
+                ),
+            ));
+
+            $inputFilter->add(array(
+                'name'     => 'email',
+                'required' => true,
+                'filters'  => array(
+                    array('name' => 'StripTags'),
+                    array('name' => 'StringTrim'),
+                ),
+                'validators' => array(
+                    array(
+                        'name'    => 'StringLength',
+                        'options' => array(
+                            'encoding' => 'UTF-8',
+                            'min'      => 1,
+                            'max'      => 100,
+                        ),
+                    ),
+                ),
+            ));
             $this->inputFilter = $inputFilter;
         }
 
